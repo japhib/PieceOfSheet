@@ -53,10 +53,11 @@
 
 	/** @jsx React.DOM */var React = __webpack_require__(2)
 	var ReactDOM = __webpack_require__(159);
-	// test
-	var FancyComponent = __webpack_require__(160);
-	var RandomNumber = __webpack_require__(161);
-	var ServerInteractionComponent = __webpack_require__(162);
+	
+	var Navbar = __webpack_require__(163);
+	var Header = __webpack_require__(164);
+	var Browse = __webpack_require__(165);
+	var Footer = __webpack_require__(166);
 	
 	// The component to be rendered
 	var App = React.createClass({displayName: "App",
@@ -65,13 +66,24 @@
 	    },
 	
 	    render: function() {
-	        return (React.createElement("div", null, 
-	            React.createElement(FancyComponent, {name: "fancy #1"}), 
-	            React.createElement(FancyComponent, {name: "fancy #2", fancyColor: "green"}), 
-	            React.createElement(RandomNumber, null), 
-	            React.createElement(ServerInteractionComponent, {onChange: this.handleServerChange})
-	        ))
+	        return (
+	            React.createElement("div", null, 
+	                React.createElement(Navbar, null), 
+	                React.createElement(Header, null), 
+	                React.createElement(Browse, null), 
+	                React.createElement(Footer, null)
+	            )
+	            );
 	    }
+	
+	    // render: function() {
+	    //     return (<div>
+	    //         <FancyComponent name="fancy #1"/>
+	    //         <FancyComponent name="fancy #2" fancyColor="green"/>
+	    //         <RandomNumber />
+	    //         <ServerInteractionComponent onChange={this.handleServerChange} />
+	    //     </div>)
+	    // }
 	})
 	
 	debugger;
@@ -19667,14 +19679,37 @@
 
 
 /***/ },
-/* 160 */
+/* 160 */,
+/* 161 */,
+/* 162 */,
+/* 163 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/** @jsx React.DOM */'use strict';
 	
 	var React  = __webpack_require__(2);
 	
-	var FancyComponent = React.createClass({displayName: "FancyComponent",
+	var Navbar = React.createClass({displayName: "Navbar",
+	    render: function() {
+	        return (
+	            React.createElement("div", null, 
+	            	"This is the navbar!"
+	            )
+	            );
+	    }
+	});
+	
+	module.exports = Navbar;
+
+/***/ },
+/* 164 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/** @jsx React.DOM */'use strict';
+	
+	var React  = __webpack_require__(2);
+	
+	var Header = React.createClass({displayName: "Header",
 	    getDefaultProps: function(){
 	        return {
 	            fancyColor: "white",
@@ -19683,116 +19718,65 @@
 	    },
 	
 	    render: function() {
-	        // You can keep your styles here instead of in a CSS sheet - nice to bundle
-	        // HTML, CSS, and JS in one file for each component.
-	        var containerStyle = {
-	            backgroundColor: this.props.fancyColor
-	        }
-	
 	        return (
-	            React.createElement("div", {className: "col-md-6 btn", style: containerStyle}, 
-	                "I am a fancy component. My name is ", this.props.name, "."
+	            React.createElement("div", null, 
+	                React.createElement("h1", null, "Header")
 	            )
+	            );
+	        // // You can keep your styles here instead of in a CSS sheet - nice to bundle
+	        // // HTML, CSS, and JS in one file for each component.
+	        // var containerStyle = {
+	        //     backgroundColor: this.props.fancyColor
+	        // }
 	
-	        );
+	        // return (
+	        //     <div className="col-md-6 btn" style={containerStyle}>
+	        //         I am a fancy component. My name is {this.props.name}.
+	        //     </div>
+	
+	        // );
 	    }
 	});
 	
-	module.exports = FancyComponent;
+	module.exports = Header;
 
 /***/ },
-/* 161 */
+/* 165 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/** @jsx React.DOM */'use strict';
+	
 	var React  = __webpack_require__(2);
 	
-	var RandomNumber = React.createClass({displayName: "RandomNumber",
-	    getInitialState: function() {
-	        return  {
-	            number: 'No number generated yet.'
-	        }
-	    },
-	
-	    setNewNumber: function() {
-	        this.setState({
-	            number: Math.random()
-	        })
-	    },
-	
-	    render: function() {
-	        return (
-	            // Don't forget "this.". Otherwise it will be looking for
-	            // a free function like the one below.
-	            React.createElement("div", {onClick: this.setNewNumber}, 
-	                this.state.number
-	            )
-	
-	        );
-	    }
-	});
-	
-	// function setNewNumber(){
-	
-	// }
-	module.exports = RandomNumber;
-
-/***/ },
-/* 162 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/** @jsx React.DOM */'use strict';
-	var React  = __webpack_require__(2);
-	
-	var ServerInteractionComponent = React.createClass({displayName: "ServerInteractionComponent",
-	    getDefaultProps: function () {
-	        return {
-	            onChange: function(){}
-	        }
-	    },
-	    getInitialState: function () {
-	        return {
-	            numberFromServer: 'Haven\'t got a number yet.'
-	        }
-	    },
-	
-	    componentDidMount: function () {
-	        this.loadNumber()
-	    },
-	
-	
-	    // askdhdksfajh
-	
-	    incrementNumber: function () {
-	        // Using jQuery... never actually done server communication without it.
-	        $.post('/number', this.loadNumber.bind(this, this.props.onChange));
-	    },
-	
-	    loadNumber: function(callback) {
-	        callback = callback || function(){}
-	
-	        var responseFromServer = $.getJSON('/number', function(serverResponse)  {
-	            this.setState({
-	                numberFromServer: serverResponse.number
-	            })
-	
-	            callback(serverResponse.number)
-	        }.bind(this))
-	    },
-	
+	var Browse = React.createClass({displayName: "Browse",
 	    render: function() {
 	        return (
 	            React.createElement("div", null, 
-	                React.createElement("h1", null, "Number from server"), 
-	                React.createElement("div", null, "Number: ", this.state.numberFromServer), 
-	                React.createElement("button", {onClick: this.incrementNumber}, "increment")
+	            	"Music to browse."
 	            )
-	
-	        );
+	            );
 	    }
 	});
 	
-	module.exports = ServerInteractionComponent;
+	module.exports = Browse;
+
+/***/ },
+/* 166 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/** @jsx React.DOM */'use strict';
+	
+	var React  = __webpack_require__(2);
+	
+	var Footer = React.createClass({displayName: "Footer",
+	    render: function() {
+	        return (
+	            React.createElement("div", null, "Copyright 2015 Piece of Sheet Inc.")
+	            );
+	    }
+	});
+	
+	module.exports = Footer;
 
 /***/ }
 /******/ ]);
