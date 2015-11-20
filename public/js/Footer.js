@@ -5,7 +5,7 @@ var React  = require('react');
 var Footer = React.createClass({
     render: function() {
         return (
-            <div>Copyright 2015 Piece of Sheet Inc.</div>
+            <div style={{ textAlign: 'center'}}>Copyright 2015 Piece of Sheet Inc.</div>
             );
     }
 });

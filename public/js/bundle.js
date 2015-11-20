@@ -55,9 +55,33 @@
 	var ReactDOM = __webpack_require__(159);
 	
 	var Navbar = __webpack_require__(163);
-	var Header = __webpack_require__(164);
+	var BrowseHeader = __webpack_require__(167);
 	var Browse = __webpack_require__(165);
 	var Footer = __webpack_require__(166);
+	
+	var Files = [
+	{
+	    title: 'Aria in F major, BWV 587',
+	    composer: 'Johann Sebastian Bach',
+	    filename: 'Bach_-_BGA_-_BWV_587.pdf',
+	    description: 'An aria written in the glorious key of F major!',
+	    comments: [
+	    {
+	        name: 'jbergeson',
+	        text: 'this is a first comment'
+	    },
+	    {
+	        name: 'sebrantley',
+	        text: 'I think this comment is the second.'
+	    }
+	    ]
+	},
+	];
+	
+	var headerProps = {
+	    numFiles: Files.length
+	};
+	
 	
 	// The component to be rendered
 	var App = React.createClass({displayName: "App",
@@ -69,21 +93,12 @@
 	        return (
 	            React.createElement("div", null, 
 	                React.createElement(Navbar, null), 
-	                React.createElement(Header, null), 
-	                React.createElement(Browse, null), 
+	                React.createElement(BrowseHeader, {headerProps: headerProps}), 
+	                React.createElement(Browse, {files: Files}), 
 	                React.createElement(Footer, null)
 	            )
 	            );
 	    }
-	
-	    // render: function() {
-	    //     return (<div>
-	    //         <FancyComponent name="fancy #1"/>
-	    //         <FancyComponent name="fancy #2" fancyColor="green"/>
-	    //         <RandomNumber />
-	    //         <ServerInteractionComponent onChange={this.handleServerChange} />
-	    //     </div>)
-	    // }
 	})
 	
 	debugger;
@@ -19702,45 +19717,7 @@
 	module.exports = Navbar;
 
 /***/ },
-/* 164 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/** @jsx React.DOM */'use strict';
-	
-	var React  = __webpack_require__(2);
-	
-	var Header = React.createClass({displayName: "Header",
-	    getDefaultProps: function(){
-	        return {
-	            fancyColor: "white",
-	            name: "no name defined"
-	        }
-	    },
-	
-	    render: function() {
-	        return (
-	            React.createElement("div", null, 
-	                React.createElement("h1", null, "Header")
-	            )
-	            );
-	        // // You can keep your styles here instead of in a CSS sheet - nice to bundle
-	        // // HTML, CSS, and JS in one file for each component.
-	        // var containerStyle = {
-	        //     backgroundColor: this.props.fancyColor
-	        // }
-	
-	        // return (
-	        //     <div className="col-md-6 btn" style={containerStyle}>
-	        //         I am a fancy component. My name is {this.props.name}.
-	        //     </div>
-	
-	        // );
-	    }
-	});
-	
-	module.exports = Header;
-
-/***/ },
+/* 164 */,
 /* 165 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -19749,10 +19726,18 @@
 	var React  = __webpack_require__(2);
 	
 	var Browse = React.createClass({displayName: "Browse",
+		showFiles: function() {
+			var ret = '';
+			this.props.files.forEach(function(entry) {
+				console.log( entry );
+				ret += entry.title + '\n';
+			});
+			return ret;
+		},
 	    render: function() {
 	        return (
 	            React.createElement("div", null, 
-	            	"Music to browse."
+	            	this.showFiles()
 	            )
 	            );
 	    }
@@ -19771,12 +19756,33 @@
 	var Footer = React.createClass({displayName: "Footer",
 	    render: function() {
 	        return (
-	            React.createElement("div", null, "Copyright 2015 Piece of Sheet Inc.")
+	            React.createElement("div", {style: { textAlign: 'center'}}, "Copyright 2015 Piece of Sheet Inc.")
 	            );
 	    }
 	});
 	
 	module.exports = Footer;
+
+/***/ },
+/* 167 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/** @jsx React.DOM */'use strict';
+	
+	var React  = __webpack_require__(2);
+	
+	var BrowseHeader = React.createClass({displayName: "BrowseHeader",
+	    render: function() {
+	        return (
+	            React.createElement("div", null, 
+	                React.createElement("h1", null, "Browse all uploads"), React.createElement("br", null), 
+	                "Number of files to browse: ", this.props.headerProps.numFiles, React.createElement("br", null)
+	            )
+	            );
+	    }
+	});
+	
+	module.exports = BrowseHeader;
 
 /***/ }
 /******/ ]);

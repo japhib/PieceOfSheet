@@ -3,10 +3,18 @@
 var React  = require('react');
 
 var Browse = React.createClass({
+	showFiles: function() {
+		var ret = '';
+		this.props.files.forEach(function(entry) {
+			console.log( entry );
+			ret += entry.title + '\n';
+		});
+		return ret;
+	},
     render: function() {
         return (
             <div>
-            	Music to browse.
+            	{this.showFiles()}
             </div>
             );
     }
