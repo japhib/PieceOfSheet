@@ -18,7 +18,7 @@ var FancyComponent = React.createClass({
         }
 
         return (
-            <div className="col-md-6 button" style={containerStyle}>
+            <div className="col-md-6 btn" style={containerStyle}>
                 I am a fancy component. My name is {this.props.name}.
             </div>
 
