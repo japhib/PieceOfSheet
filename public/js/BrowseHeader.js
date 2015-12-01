@@ -7,7 +7,7 @@ var BrowseHeader = React.createClass({
         return (
             <div>
                 <h1>Browse all uploads</h1><br />
-                Number of files to browse: {this.props.headerProps.numFiles}<br />
+                Number of files uploaded: {this.props.headerProps.numFiles}<br /><br />
             </div>
             );
     }

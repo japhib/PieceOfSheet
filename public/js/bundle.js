@@ -19718,7 +19718,11 @@
 	    render: function() {
 	        return (
 	            React.createElement("div", null, 
-	            	"This is the navbar!"
+		            React.createElement("div", {className: "navbar"}, 
+		            	React.createElement("h3", null, "Piece of Sheet"), 
+		            	React.createElement("i", null, "for all your sheet music needs")
+		            ), 
+		            React.createElement("div", {className: "navbar-spacer"}, " ")
 	            )
 	            );
 	    }
@@ -19739,7 +19743,7 @@
 	        return (
 	            React.createElement("div", null, 
 	                React.createElement("h1", null, "Browse all uploads"), React.createElement("br", null), 
-	                "Number of files to browse: ", this.props.headerProps.numFiles, React.createElement("br", null)
+	                "Number of files uploaded: ", this.props.headerProps.numFiles, React.createElement("br", null), React.createElement("br", null)
 	            )
 	            );
 	    }
@@ -19803,7 +19807,7 @@
 	var Footer = React.createClass({displayName: "Footer",
 	    render: function() {
 	        return (
-	            React.createElement("div", null, 
+	            React.createElement("div", {className: "footer"}, 
 	                React.createElement("br", null), 
 	                React.createElement("br", null), 
 	                React.createElement("br", null), 
@@ -19894,11 +19898,11 @@
 	var FileThumbnail = React.createClass({displayName: "FileThumbnail",
 		render: function() {
 			return (
-				React.createElement("div", {style: {float: 'left'}, className: "col-md-3"}, 
+				React.createElement("div", {style: {float: 'left'}, className: "col-md-3 hoverable"}, 
 					React.createElement("div", {style: {position: 'relative'}}, 
 						React.createElement("h4", {style: {textAlign: 'center'}}, "Title: ", this.props.data.title), 
 						React.createElement("div", {style: {textAlign: 'center', fontStyle: 'italic'}}, "Composer: ", this.props.data.composer), 
-						React.createElement("img", {src: this.props.data.thumbnail_filename})
+						React.createElement("img", {src: this.props.data.thumbnail_file, className: "thumbnail_pic"})
 					)
 				)
 				);
