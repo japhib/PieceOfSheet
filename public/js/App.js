@@ -59,7 +59,29 @@ var BrowsePage = React.createClass({
     render: function() {
         return (
             <div>
-                <BrowseHeader headerProps={headerProps} />
+                <BrowseHeader numFiles={Files.length} title="Browse all uploads" />
+                <Browse files={Files} />
+            </div>
+            );
+    }
+});
+
+var Favorites = React.createClass({
+    render: function() {
+        return (
+            <div>
+                <BrowseHeader numFiles={Files.length} title="Favorites" />
+                <Browse files={Files} />
+            </div>
+            );
+    }
+});
+
+var MyUploads = React.createClass({
+    render: function() {
+        return (
+            <div>
+                <BrowseHeader numFiles={Files.length} title="My Uploads" />
                 <Browse files={Files} />
             </div>
             );
@@ -71,7 +93,9 @@ var Home = React.createClass({
         return (
             <div>
                 Hello, World!<br />
-                <Link to="/browse">Browse</Link>
+                <Link to="/browse">Browse</Link><br />
+                <Link to="/favorites">Favorites</Link><br />
+                <Link to="/uploads">My Uploads</Link><br />
             </div>
             );
     }
@@ -98,6 +122,8 @@ ReactDOM.render(
     <Router>
         <Route path="/" component={App}>
           <Route path="browse" component={BrowsePage} />
+          <Route path="uploads" component={MyUploads} />
+          <Route path="favorites" component={Favorites} />
           <IndexRoute component={Home} />
         </Route>
     </Router>

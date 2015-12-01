@@ -17,9 +17,6 @@ var ServerInteractionComponent = React.createClass({
         this.loadNumber()
     },
 
-
-    // askdhdksfajh
-
     incrementNumber: function () {
         // Using jQuery... never actually done server communication without it.
         $.post('/number', this.loadNumber.bind(this, this.props.onChange));
