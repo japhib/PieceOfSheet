@@ -1,6 +1,14 @@
 var React = require('react')
 var ReactDOM = require('react-dom');
 
+// Routing stuff
+var ReactRouter = require('react-router');
+var Router = ReactRouter.Router;
+var Route = ReactRouter.Route;
+var IndexRoute = ReactRouter.IndexRoute;
+var Link = ReactRouter.Link;
+
+// Import my other source files
 var Navbar = require('./Navbar');
 var BrowseHeader = require('./BrowseHeader');
 var Browse = require('./Browse');
@@ -47,14 +55,36 @@ var headerProps = {
 };
 
 
+var BrowsePage = React.createClass({
+    render: function() {
+        return (
+            <div>
+                <BrowseHeader headerProps={headerProps} />
+                <Browse files={Files} />
+            </div>
+            );
+    }
+});
+
+var Home = React.createClass({
+    render: function() {
+        return (
+            <div>
+                Hello, World!<br />
+                <Link to="/browse">Browse</Link>
+            </div>
+            );
+    }
+})
+
+
 // The component to be rendered
 var App = React.createClass({
     render: function() {
         return (
             <div>
                 <Navbar />
-                <BrowseHeader headerProps={headerProps} />
-                <Browse files={Files} />
+                {this.props.children}
                 <Footer />
             </div>
             );
@@ -64,4 +94,12 @@ var App = React.createClass({
 debugger;
 
 // Only needs to be called once.
-ReactDOM.render(<App />, document.querySelector('.app-container'))
+ReactDOM.render(
+    <Router>
+        <Route path="/" component={App}>
+          <Route path="browse" component={BrowsePage} />
+          <IndexRoute component={Home} />
+        </Route>
+    </Router>
+    , document.querySelector('.app-container')
+);

@@ -11,8 +11,8 @@ var app = express();
 
 var mongoose = require('mongoose')
 mongoose.connect('mongodb://localhost/express-react-todo')
-// asdfsa
-//app.use(favicon(__dirname + '/public/favicon.ico'));
+
+// app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));

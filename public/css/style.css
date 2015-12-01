@@ -30,6 +30,17 @@ div.navbar {
 
 	z-index: 5;
 }
+.homepage_link {
+	color: white;
+}
+.homepage_link:hover {
+	color: white;
+	text-decoration: none;
+}
+.homepage_link:active {
+	color: white;
+	text-decoration: none;
+}
 
 div.footer {
 	clear: both;
