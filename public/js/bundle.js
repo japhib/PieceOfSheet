@@ -54,16 +54,17 @@
 	/** @jsx React.DOM */var React = __webpack_require__(2)
 	var ReactDOM = __webpack_require__(159);
 	
-	var Navbar = __webpack_require__(163);
-	var BrowseHeader = __webpack_require__(167);
-	var Browse = __webpack_require__(165);
-	var Footer = __webpack_require__(166);
+	var Navbar = __webpack_require__(160);
+	var BrowseHeader = __webpack_require__(161);
+	var Browse = __webpack_require__(162);
+	var Footer = __webpack_require__(163);
 	
 	var Files = [
 	{
 	    title: 'Aria in F major, BWV 587',
 	    composer: 'Johann Sebastian Bach',
 	    filename: 'Bach_-_BGA_-_BWV_587.pdf',
+	    thumbnail_file: 'Bach_-_BGA_-_BWV_587.pdf_p0001.jpeg',
 	    description: 'An aria written in the glorious key of F major!',
 	    comments: [
 	    {
@@ -76,6 +77,22 @@
 	    }
 	    ]
 	},
+	{
+	    title: 'Aria in G minor, BWV 588',
+	    composer: 'Johannes Sebastianes Baches',
+	    filename: 'Bach_-_BGA_-_BWV_587.pdf',
+	    description: 'An aria written in the glorious key of F major!',
+	    comments: [
+	    {
+	        name: 'jbergeson',
+	        text: 'this is a first comment'
+	    },
+	    {
+	        name: 'sebrantley',
+	        text: 'I think this comment is the second.'
+	    }
+	    ]
+	}
 	];
 	
 	var headerProps = {
@@ -85,10 +102,6 @@
 	
 	// The component to be rendered
 	var App = React.createClass({displayName: "App",
-	    handleServerChange: function (newNumber) {
-	        console.log(("Wow, looked like the number changed to " + newNumber + "!"))
-	    },
-	
 	    render: function() {
 	        return (
 	            React.createElement("div", null, 
@@ -19694,10 +19707,7 @@
 
 
 /***/ },
-/* 160 */,
-/* 161 */,
-/* 162 */,
-/* 163 */
+/* 160 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/** @jsx React.DOM */'use strict';
@@ -19717,54 +19727,7 @@
 	module.exports = Navbar;
 
 /***/ },
-/* 164 */,
-/* 165 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/** @jsx React.DOM */'use strict';
-	
-	var React  = __webpack_require__(2);
-	
-	var Browse = React.createClass({displayName: "Browse",
-		showFiles: function() {
-			var ret = '';
-			this.props.files.forEach(function(entry) {
-				console.log( entry );
-				ret += entry.title + '\n';
-			});
-			return ret;
-		},
-	    render: function() {
-	        return (
-	            React.createElement("div", null, 
-	            	this.showFiles()
-	            )
-	            );
-	    }
-	});
-	
-	module.exports = Browse;
-
-/***/ },
-/* 166 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/** @jsx React.DOM */'use strict';
-	
-	var React  = __webpack_require__(2);
-	
-	var Footer = React.createClass({displayName: "Footer",
-	    render: function() {
-	        return (
-	            React.createElement("div", {style: { textAlign: 'center'}}, "Copyright 2015 Piece of Sheet Inc.")
-	            );
-	    }
-	});
-	
-	module.exports = Footer;
-
-/***/ },
-/* 167 */
+/* 161 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/** @jsx React.DOM */'use strict';
@@ -19783,6 +19746,166 @@
 	});
 	
 	module.exports = BrowseHeader;
+
+/***/ },
+/* 162 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/** @jsx React.DOM */'use strict';
+	
+	var React  = __webpack_require__(2);
+	
+	var CommentBox = __webpack_require__(164);
+	var FileThumbnail = __webpack_require__(165);
+	
+	var Browse = React.createClass({displayName: "Browse",
+		// showFiles: function() {
+		// 	var ret = '';
+		// 	this.props.files.forEach(function(entry) {
+		// 		console.log( entry );
+		// 		ret += entry.title + '\n';
+				
+		// 		ret += (
+		// 			<CommentBox data={entry.comments} />
+		// 			);
+		// 	});
+		// 	return ret;
+		// },
+	    render: function() {
+	        var content = this.props.files.map( function( file ) {
+	        	return ( 
+	        		React.createElement(FileThumbnail, {data: file})
+	        		);
+	        });
+	        return (
+	        	React.createElement("div", null, 
+	        		content
+	        	)
+	        	);
+	        // return (
+	        //     <div>
+	        //     	{this.showFiles()}
+	        //     </div>
+	        //     );
+	    }
+	});
+	
+	module.exports = Browse;
+
+/***/ },
+/* 163 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/** @jsx React.DOM */'use strict';
+	
+	var React  = __webpack_require__(2);
+	
+	var Footer = React.createClass({displayName: "Footer",
+	    render: function() {
+	        return (
+	            React.createElement("div", null, 
+	                React.createElement("br", null), 
+	                React.createElement("br", null), 
+	                React.createElement("br", null), 
+	                React.createElement("div", {style: { textAlign: 'center'}}, "Copyright 2015 Piece of Sheet Inc.")
+	            )
+	            );
+	    }
+	});
+	
+	module.exports = Footer;
+
+/***/ },
+/* 164 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/** @jsx React.DOM */'use strict';
+	
+	var React  = __webpack_require__(2);
+	
+	var CommentBox = React.createClass({displayName: "CommentBox",
+	  render: function() {
+	    return (
+	      React.createElement("div", {className: "commentBox"}, 
+	        React.createElement("h1", null, "Comments"), 
+	        React.createElement(CommentList, {data: this.props.data}), 
+	        React.createElement(CommentForm, null)
+	      )
+	    );
+	  }
+	});
+	
+	var CommentList = React.createClass({displayName: "CommentList",
+	  render: function() {
+	    var commentNodes = this.props.data.map(function (comment) {
+	      return (
+	        React.createElement(Comment, {author: comment.name}, 
+	          comment.text
+	        )
+	      );
+	    });
+	    return (
+	      React.createElement("div", {className: "commentList"}, 
+	        commentNodes
+	      )
+	    );
+	  }
+	});
+	
+	var CommentForm = React.createClass({displayName: "CommentForm",
+	  render: function() {
+	    return (
+	      React.createElement("div", {className: "commentForm"}, 
+	        React.createElement("strong", null, "You:"), React.createElement("br", null), 
+	        React.createElement("input", {type: "text"})
+	      )
+	    );
+	  }
+	});
+	
+	var Comment = React.createClass({displayName: "Comment",
+	  rawMarkup: function() {
+	    var rawMarkup = marked(this.props.children.toString(), {sanitize: true});
+	    return { __html: rawMarkup };
+	  },
+	
+	  render: function() {
+	    return (
+	      React.createElement("div", {className: "comment"}, 
+	        React.createElement("strong", {className: "commentAuthor"}, 
+	          this.props.author, ":" 
+	        ), 
+	        React.createElement("span", {dangerouslySetInnerHTML: this.rawMarkup()})
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = CommentBox;
+
+/***/ },
+/* 165 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/** @jsx React.DOM */'use strict';
+	
+	var React  = __webpack_require__(2);
+	
+	var FileThumbnail = React.createClass({displayName: "FileThumbnail",
+		render: function() {
+			return (
+				React.createElement("div", {style: {float: 'left'}, className: "col-md-3"}, 
+					React.createElement("div", {style: {position: 'relative'}}, 
+						React.createElement("h4", {style: {textAlign: 'center'}}, "Title: ", this.props.data.title), 
+						React.createElement("div", {style: {textAlign: 'center', fontStyle: 'italic'}}, "Composer: ", this.props.data.composer), 
+						React.createElement("img", {src: this.props.data.thumbnail_filename})
+					)
+				)
+				);
+		}
+	});
+	
+	module.exports = FileThumbnail;
 
 /***/ }
 /******/ ]);

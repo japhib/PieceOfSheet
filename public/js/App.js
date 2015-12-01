@@ -11,6 +11,7 @@ var Files = [
     title: 'Aria in F major, BWV 587',
     composer: 'Johann Sebastian Bach',
     filename: 'Bach_-_BGA_-_BWV_587.pdf',
+    thumbnail_file: 'Bach_-_BGA_-_BWV_587.pdf_p0001.jpeg',
     description: 'An aria written in the glorious key of F major!',
     comments: [
     {
@@ -23,6 +24,22 @@ var Files = [
     }
     ]
 },
+{
+    title: 'Aria in G minor, BWV 588',
+    composer: 'Johannes Sebastianes Baches',
+    filename: 'Bach_-_BGA_-_BWV_587.pdf',
+    description: 'An aria written in the glorious key of F major!',
+    comments: [
+    {
+        name: 'jbergeson',
+        text: 'this is a first comment'
+    },
+    {
+        name: 'sebrantley',
+        text: 'I think this comment is the second.'
+    }
+    ]
+}
 ];
 
 var headerProps = {
@@ -32,10 +49,6 @@ var headerProps = {
 
 // The component to be rendered
 var App = React.createClass({
-    handleServerChange: function (newNumber) {
-        console.log(`Wow, looked like the number changed to ${newNumber}!`)
-    },
-
     render: function() {
         return (
             <div>
