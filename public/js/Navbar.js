@@ -4,28 +4,53 @@ var React  = require('react');
 var ReactRouter = require('react-router');
 var Link = ReactRouter.Link;
 
+// var HoverButton = React.createClass({
+//     getInitialState: function () {
+//         return {hover: false};
+//     },
+
+//     mouseOver: function () {
+//         this.setState({hover: true});
+//     },
+
+//     mouseOut: function () {
+//         this.setState({hover: false});
+//     },
+
+//     render: function() {
+//         var label = "foo";
+//         if (this.state.hover) {
+//             label = "bar";
+//         }
+//         return React.createElement(
+//             "button",
+//             {onMouseOver: this.mouseOver, onMouseOut: this.mouseOut},
+//             label
+//         );
+//     }
+// });
 
 
 
 var LoginPanel = React.createClass({
 	render: function() {
 		return (
-			<form className="LoginPanel">
-        		<input type="text" name="username" className='input-lg' />
-        		<input type="text" name="username" className='input-lg' />
-        		<input type="submit" value="Login" className='input-lg' />
+			<form className="LoginPanel" method="POST" action="login">
+        		<input type="text" name="username" className='input-md' />
+        		<input type="password" name="password" className='input-md' />
+        		<input type="submit" value="Login" className='input-md' />
 			</form>
 			);
 	}
 });
 
-var LoginBtn = React.createClass({
-	render: function() {
-		return (
-			<div className="plain_white_link">Login</div>
-			);
-	}
-});
+// var LoginBtn = React.createClass({
+// 	render: function() {
+// 		return (
+// 			<div className="plain_white_link"><HoverButton /></div>
+// 			);
+// 	}
+// });
 
 var Navbar = React.createClass({
     render: function() {
@@ -39,7 +64,7 @@ var Navbar = React.createClass({
 	            	</div>
 
 	            	<div className="navbarRight">
-	            		<LoginBtn />
+	            		<LoginPanel />
 	            	</div>
 
 	            	<div className="navbarCenter">

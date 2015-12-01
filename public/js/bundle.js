@@ -24588,28 +24588,53 @@
 	var ReactRouter = __webpack_require__(160);
 	var Link = ReactRouter.Link;
 	
+	// var HoverButton = React.createClass({
+	//     getInitialState: function () {
+	//         return {hover: false};
+	//     },
+	
+	//     mouseOver: function () {
+	//         this.setState({hover: true});
+	//     },
+	
+	//     mouseOut: function () {
+	//         this.setState({hover: false});
+	//     },
+	
+	//     render: function() {
+	//         var label = "foo";
+	//         if (this.state.hover) {
+	//             label = "bar";
+	//         }
+	//         return React.createElement(
+	//             "button",
+	//             {onMouseOver: this.mouseOver, onMouseOut: this.mouseOut},
+	//             label
+	//         );
+	//     }
+	// });
 	
 	
 	
 	var LoginPanel = React.createClass({displayName: "LoginPanel",
 		render: function() {
 			return (
-				React.createElement("form", {className: "LoginPanel"}, 
-	        		React.createElement("input", {type: "text", name: "username", className: "input-lg"}), 
-	        		React.createElement("input", {type: "text", name: "username", className: "input-lg"}), 
-	        		React.createElement("input", {type: "submit", value: "Login", className: "input-lg"})
+				React.createElement("form", {className: "LoginPanel", method: "POST", action: "login"}, 
+	        		React.createElement("input", {type: "text", name: "username", className: "input-md"}), 
+	        		React.createElement("input", {type: "password", name: "password", className: "input-md"}), 
+	        		React.createElement("input", {type: "submit", value: "Login", className: "input-md"})
 				)
 				);
 		}
 	});
 	
-	var LoginBtn = React.createClass({displayName: "LoginBtn",
-		render: function() {
-			return (
-				React.createElement("div", {className: "plain_white_link"}, "Login")
-				);
-		}
-	});
+	// var LoginBtn = React.createClass({
+	// 	render: function() {
+	// 		return (
+	// 			<div className="plain_white_link"><HoverButton /></div>
+	// 			);
+	// 	}
+	// });
 	
 	var Navbar = React.createClass({displayName: "Navbar",
 	    render: function() {
@@ -24623,7 +24648,7 @@
 		            	), 
 	
 		            	React.createElement("div", {className: "navbarRight"}, 
-		            		React.createElement(LoginBtn, null)
+		            		React.createElement(LoginPanel, null)
 		            	), 
 	
 		            	React.createElement("div", {className: "navbarCenter"}, 

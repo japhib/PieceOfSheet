@@ -4,7 +4,11 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var numberRouter = require('./routes/NumberRouter')
+
+// our routers
+var numberRouter = require('./routes/NumberRouter');
+var loginRouter = require('./routes/LoginRouter');
+
 var app = express();
 
 // DB setup
@@ -26,7 +30,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 ////////////////////
 ////////////////////
 
-app.use('/number', numberRouter)
+app.use('/number', numberRouter);
+app.use('/login', loginRouter);
 
 ////////////////////
 ////////////////////

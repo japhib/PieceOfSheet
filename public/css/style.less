@@ -13,6 +13,10 @@ div.hoverable :hover {
 	border-radius: 8px;
 }
 
+.blacktext {
+	color: black;
+}
+
 div.navbar {
 
 	border-radius: 0px !important;
@@ -65,13 +69,17 @@ div.navbar {
 
 	// Login panel
 	.LoginPanel {
-
-		display: none; // Hidden at the start. Only appears on mouse over
-
 		@login_btn_background: #23115D;
 		input[type="submit"] {
 			background-color: @login_btn_background;
 			border-color: (@login_btn_background + #555);
+		}
+
+		input[type="text"] { 
+			.blacktext;
+		}
+		input[type="password"] {
+			.blacktext;
 		}
 	}
 }
