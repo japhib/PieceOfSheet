@@ -144,12 +144,16 @@
 	var Home = React.createClass({displayName: "Home",
 	    render: function() {
 	        return (
-	            React.createElement("div", null, 
-	                "Hello, World!", React.createElement("br", null), 
-	                React.createElement(Link, {to: "/browse"}, "Browse"), React.createElement("br", null), 
-	                React.createElement(Link, {to: "/favorites"}, "Favorites"), React.createElement("br", null), 
-	                React.createElement(Link, {to: "/uploads"}, "My Uploads"), React.createElement("br", null)
-	            )
+	        React.createElement("div", {class: "row"}, 
+	          React.createElement("div", {className: "col-xs-12 col-sm-6 col-lg-8 welcome"}, 
+	            React.createElement("h3", null, "Hello, World!"), 
+	            React.createElement(Link, {to: "/browse"}, "Browse"), React.createElement("br", null), 
+	            React.createElement(Link, {to: "/favorites"}, "Favorites"), React.createElement("br", null), 
+	            React.createElement(Link, {to: "/uploads"}, "My Uploads"), React.createElement("br", null)
+	          ), 
+	          React.createElement("div", {className: "col-xs-6 col-lg-4 welcome"}, ".col-xs-6 .col-lg-4")
+	
+	        )
 	            );
 	    }
 	})
@@ -182,6 +186,7 @@
 	    )
 	    , document.querySelector('.app-container')
 	);
+
 
 /***/ },
 /* 2 */
@@ -24619,10 +24624,12 @@
 	var LoginPanel = React.createClass({displayName: "LoginPanel",
 		render: function() {
 			return (
-				React.createElement("form", {className: "LoginPanel", method: "POST", action: "login"}, 
-	        		React.createElement("input", {type: "text", name: "username", className: "input-md"}), 
-	        		React.createElement("input", {type: "password", name: "password", className: "input-md"}), 
-	        		React.createElement("input", {type: "submit", value: "Login", className: "input-md"})
+				React.createElement("form", {className: "navbar-form navbar-right LoginPanel", method: "POST", action: "login"}, 
+					React.createElement("div", {className: "form-group"}, 
+						React.createElement("input", {type: "text", name: "username", className: "form-control input-md", placeholder: "Username"}), 
+						React.createElement("input", {type: "password", name: "password", className: "form-control input-md", placeholder: "Password"})
+					), 
+					React.createElement("button", {type: "submit", className: "btn btn-default"}, "Login")
 				)
 				);
 		}
@@ -24637,41 +24644,75 @@
 	// });
 	
 	var Navbar = React.createClass({displayName: "Navbar",
-	    render: function() {
+	  render: function() {
+	    return (
+				React.createElement("nav", {className: "navbar navbar-inverse navbar-fixed-top"}, 
+					React.createElement("div", {className: "container-fluid"}, 
+						React.createElement("div", {className: "navbar-header"}, 
+							React.createElement("button", {type: "button", className: "navbar-toggle collapsed", "data-toggle": "collapse", "data-target": "#bs-example-navbar-collapse-1", "aria-expanded": "false"}, 
+								React.createElement("span", {className: "sr-only"}, "Toggle navigation"), 
+								React.createElement("span", {className: "icon-bar"}), 
+								React.createElement("span", {className: "icon-bar"}), 
+								React.createElement("span", {className: "icon-bar"})
+							), 
+							React.createElement("a", {className: "navbar-brand", href: "#"}, "Piece of Sheet")
+						), 
+						React.createElement("div", {className: "collapse navbar-collapse", id: "bs-example-navbar-collapse-1"}, 
+							React.createElement("ul", {className: "nav navbar-nav"}, 
+								React.createElement("li", {className: "dropdown"}, 
+		          React.createElement("a", {href: "#", className: "dropdown-toggle", "data-toggle": "dropdown", role: "button", "aria-haspopup": "true", "aria-expanded": "false"}, "Dropdown ", React.createElement("span", {class: "caret"})), 
+		          React.createElement("ul", {className: "dropdown-menu"}, 
+		            React.createElement("li", null, React.createElement("a", {href: "/#/browse"}, "Browse")), 
+		            React.createElement("li", null, React.createElement("a", {href: "/#/favorites"}, "Favorites")), 
+		            React.createElement("li", null, React.createElement("a", {href: "/#/uploads"}, "Uploads"))
+		          )
+		        )
+							), 
+							React.createElement(LoginPanel, null)
+						)
+					)
+				)
+			);
+		},
+	
+	/*
+	render: function() {
 	        return (
-	            React.createElement("div", null, 
-		            React.createElement("div", {className: "navbar"}, 
+	            <div>
+		            <div className="navbar">
 	
-		            	React.createElement("div", {className: "navbarLeft"}, 
-							React.createElement("h3", null, React.createElement(Link, {to: "/", className: "homepage_link"}, "Piece of Sheet")), 
-			            	React.createElement("i", null, "for all your sheet music needs")
-		            	), 
+		            	<div className="navbarLeft">
+							<h3><Link to="/" className="homepage_link">Piece of Sheet</Link></h3>
+			            	<i>for all your sheet music needs</i>
+		            	</div>
 	
-		            	React.createElement("div", {className: "navbarRight"}, 
-		            		React.createElement(LoginPanel, null)
-		            	), 
+		            	<div className="navbarRight">
+		            		<LoginPanel />
+		            	</div>
 	
-		            	React.createElement("div", {className: "navbarCenter"}, 
-							React.createElement("div", {className: "navbarLinks"}, 
-			            		React.createElement(Link, {to: "/browse"}, "Browse"), 
-			            		"|", 
-			            		React.createElement(Link, {to: "/favorites"}, "Favorites"), 
-			            		"|", 
-			            		React.createElement(Link, {to: "/uploads"}, "My Uploads"), 
-			            		"|", 
-			            		React.createElement("a", {href: "logout"}, "Logout")
-		            		)
-		            	), 
-		            	React.createElement("div", {style: {clear: 'both'}})
-		            	
-		            ), 
-		            React.createElement("div", {className: "navbar-spacer"}, " ")
-	            )
+		            	<div className="navbarCenter">
+							<div className="navbarLinks">
+			            		<Link to="/browse">Browse</Link>
+			            		|
+			            		<Link to="/favorites">Favorites</Link>
+			            		|
+			            		<Link to="/uploads">My Uploads</Link>
+			            		|
+			            		<a href="logout">Logout</a>
+		            		</div>
+		            	</div>
+		            	<div style={{clear: 'both'}}></div>
+	
+		            </div>
+		            <div className="navbar-spacer">&nbsp;</div>
+	            </div>
 	            );
 	    }
+	*/
 	});
 	
 	module.exports = Navbar;
+
 
 /***/ },
 /* 212 */

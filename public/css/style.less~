@@ -127,11 +127,6 @@ div.footer {
 	clear: both;
 }
 
-div.welcome {
-	padding:50px;
-	text-align:center;
-}
-
 img.thumbnail_pic {
 	width: 90%;
 	margin: 5px auto;
