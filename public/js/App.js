@@ -13,6 +13,7 @@ var Navbar = require('./Navbar');
 var BrowseHeader = require('./BrowseHeader');
 var Browse = require('./Browse');
 var Footer = require('./Footer');
+var RegisterPanel = require('./RegisterPanel');
 
 var Files = [
 {
@@ -98,7 +99,7 @@ var Home = React.createClass({
             <Link to="/favorites">Favorites</Link><br />
             <Link to="/uploads">My Uploads</Link><br />
           </div>
-          <div className="col-xs-6 col-lg-4 welcome">.col-xs-6 .col-lg-4</div>
+          <div className="col-xs-6 col-lg-4 welcome"><RegisterPanel /></div>
 
         </div>
             );

@@ -12,8 +12,8 @@ var LoginPanel = React.createClass({
 			// there was an error on logging in
 			error: false
 		};
-
 	},
+
 	login: function( event ) {
 		// prevent default browser submit
 		event.preventDefault();
@@ -43,6 +43,20 @@ var LoginPanel = React.createClass({
 			}
 		}.bind(this));
 	},
+
+	logout: function(event) {
+		event.preventDefault();
+
+		Auth.logout(function(loggedIn) {
+			if(loggedIn) {
+				this.setState({
+					loggedIn: false,
+					error: false
+				});
+			}
+		}.bind(this));
+	},
+
 	register: function( event ) {
 		// prevent default browser submit
 		event.preventDefault();
@@ -73,13 +87,19 @@ var LoginPanel = React.createClass({
 	},
 	render: function() {
 		if ( this.state.loggedIn ) {
-			return ( <div>Logout</div> );
+			return (
+				<form className='navbar-form navbar-right LoginPanel' onSubmit={this.logout}>
+					<div className='form-group'>
+					</div>
+					<button type='submit' className='btn btn-default'>Logout</button>
+				</form>
+			);
 		} else {
 			return (
-				<form className='navbar-form navbar-right LoginPanel' method='POST' action='login'>
+				<form className='navbar-form navbar-right LoginPanel' onSubmit={this.login}>
 					<div className='form-group'>
-						<input type='text' name='username' className='form-control input-md' placeholder='Username'></input>
-						<input type='password' name='password' className='form-control input-md' placeholder='Password'></input>
+						<input type='text' ref='username' className='form-control input-md' placeholder='Username'></input>
+						<input type='password' ref='password' className='form-control input-md' placeholder='Password'></input>
 					</div>
 					<button type='submit' className='btn btn-default'>Login</button>
 				</form>

@@ -42,10 +42,10 @@ app.post('/login', function(req, res) {
     var password = req.body.password;
     // Hash the password with the salt
     var hash = bcrypt.hashSync( password, salt);
-    User.find({ username: username, password_hash: password_hash }, function (err,found_users) {
+    User.find({ username: username, password_hash: hash }, function (err,found_users) {
         if ( found_users != null )
             res.send({loggedIn:true, error: null});
-        else 
+        else
             res.send({loggedIn:false, error: "invalid username or password"});
     });
 });

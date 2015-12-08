@@ -78,7 +78,7 @@ var Auth = {
   logout: function(cb) {
     delete localStorage.token;
     this.onChange(false);
-    if (cb) cb();
+    if (cb) cb(true);
   },
   // check if user is logged in
   loggedIn: function() {

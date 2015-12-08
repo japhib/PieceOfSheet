@@ -63,9 +63,10 @@
 	
 	// Import my other source files
 	var Navbar = __webpack_require__(211);
-	var BrowseHeader = __webpack_require__(212);
-	var Browse = __webpack_require__(213);
-	var Footer = __webpack_require__(216);
+	var BrowseHeader = __webpack_require__(214);
+	var Browse = __webpack_require__(215);
+	var Footer = __webpack_require__(218);
+	var RegisterPanel = __webpack_require__(219);
 	
 	var Files = [
 	{
@@ -151,7 +152,7 @@
 	            React.createElement(Link, {to: "/favorites"}, "Favorites"), React.createElement("br", null), 
 	            React.createElement(Link, {to: "/uploads"}, "My Uploads"), React.createElement("br", null)
 	          ), 
-	          React.createElement("div", {className: "col-xs-6 col-lg-4 welcome"}, ".col-xs-6 .col-lg-4")
+	          React.createElement("div", {className: "col-xs-6 col-lg-4 welcome"}, React.createElement(RegisterPanel, null))
 	
 	        )
 	            );
@@ -24592,7 +24593,7 @@
 	var React  = __webpack_require__(2);
 	var ReactRouter = __webpack_require__(160);
 	var Link = ReactRouter.Link;
-	var Auth = __webpack_require__(217);
+	var Auth = __webpack_require__(212);
 	
 	var LoginPanel = React.createClass({displayName: "LoginPanel",
 		// initial state
@@ -24601,8 +24602,8 @@
 				// there was an error on logging in
 				error: false
 			};
-	
 		},
+	
 		login: function( event ) {
 			// prevent default browser submit
 			event.preventDefault();
@@ -24632,6 +24633,20 @@
 				}
 			}.bind(this));
 		},
+	
+		logout: function(event) {
+			event.preventDefault();
+	
+			Auth.logout(function(loggedIn) {
+				if(loggedIn) {
+					this.setState({
+						loggedIn: false,
+						error: false
+					});
+				}
+			}.bind(this));
+		},
+	
 		register: function( event ) {
 			// prevent default browser submit
 			event.preventDefault();
@@ -24662,13 +24677,19 @@
 		},
 		render: function() {
 			if ( this.state.loggedIn ) {
-				return ( React.createElement("div", null, "Logout") );
+				return (
+					React.createElement("form", {className: "navbar-form navbar-right LoginPanel", onSubmit: this.logout}, 
+						React.createElement("div", {className: "form-group"}
+						), 
+						React.createElement("button", {type: "submit", className: "btn btn-default"}, "Logout")
+					)
+				);
 			} else {
 				return (
-					React.createElement("form", {className: "navbar-form navbar-right LoginPanel", method: "POST", action: "login"}, 
+					React.createElement("form", {className: "navbar-form navbar-right LoginPanel", onSubmit: this.login}, 
 						React.createElement("div", {className: "form-group"}, 
-							React.createElement("input", {type: "text", name: "username", className: "form-control input-md", placeholder: "Username"}), 
-							React.createElement("input", {type: "password", name: "password", className: "form-control input-md", placeholder: "Password"})
+							React.createElement("input", {type: "text", ref: "username", className: "form-control input-md", placeholder: "Username"}), 
+							React.createElement("input", {type: "password", ref: "password", className: "form-control input-md", placeholder: "Password"})
 						), 
 						React.createElement("button", {type: "submit", className: "btn btn-default"}, "Login")
 					)
@@ -24717,188 +24738,7 @@
 /* 212 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/** @jsx React.DOM */'use strict';
-	
-	var React  = __webpack_require__(2);
-	
-	var BrowseHeader = React.createClass({displayName: "BrowseHeader",
-	    render: function() {
-	        return (
-	            React.createElement("div", null, 
-	                React.createElement("h1", null, this.props.title), React.createElement("br", null), 
-	                "Number of files uploaded: ", this.props.numFiles, React.createElement("br", null), React.createElement("br", null)
-	            )
-	            );
-	    }
-	});
-	
-	module.exports = BrowseHeader;
-
-/***/ },
-/* 213 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/** @jsx React.DOM */'use strict';
-	
-	var React  = __webpack_require__(2);
-	
-	var CommentBox = __webpack_require__(214);
-	var FileThumbnail = __webpack_require__(215);
-	
-	var Browse = React.createClass({displayName: "Browse",
-		// showFiles: function() {
-		// 	var ret = '';
-		// 	this.props.files.forEach(function(entry) {
-		// 		console.log( entry );
-		// 		ret += entry.title + '\n';
-				
-		// 		ret += (
-		// 			<CommentBox data={entry.comments} />
-		// 			);
-		// 	});
-		// 	return ret;
-		// },
-	    render: function() {
-	        var content = this.props.files.map( function( file ) {
-	        	return ( 
-	        		React.createElement(FileThumbnail, {data: file})
-	        		);
-	        });
-	        return (
-	        	React.createElement("div", null, 
-	        		content
-	        	)
-	        	);
-	        // return (
-	        //     <div>
-	        //     	{this.showFiles()}
-	        //     </div>
-	        //     );
-	    }
-	});
-	
-	module.exports = Browse;
-
-/***/ },
-/* 214 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/** @jsx React.DOM */'use strict';
-	
-	var React  = __webpack_require__(2);
-	
-	var CommentBox = React.createClass({displayName: "CommentBox",
-	  render: function() {
-	    return (
-	      React.createElement("div", {className: "commentBox"}, 
-	        React.createElement("h1", null, "Comments"), 
-	        React.createElement(CommentList, {data: this.props.data}), 
-	        React.createElement(CommentForm, null)
-	      )
-	    );
-	  }
-	});
-	
-	var CommentList = React.createClass({displayName: "CommentList",
-	  render: function() {
-	    var commentNodes = this.props.data.map(function (comment) {
-	      return (
-	        React.createElement(Comment, {author: comment.name}, 
-	          comment.text
-	        )
-	      );
-	    });
-	    return (
-	      React.createElement("div", {className: "commentList"}, 
-	        commentNodes
-	      )
-	    );
-	  }
-	});
-	
-	var CommentForm = React.createClass({displayName: "CommentForm",
-	  render: function() {
-	    return (
-	      React.createElement("div", {className: "commentForm"}, 
-	        React.createElement("strong", null, "You:"), React.createElement("br", null), 
-	        React.createElement("input", {type: "text"})
-	      )
-	    );
-	  }
-	});
-	
-	var Comment = React.createClass({displayName: "Comment",
-	  rawMarkup: function() {
-	    var rawMarkup = marked(this.props.children.toString(), {sanitize: true});
-	    return { __html: rawMarkup };
-	  },
-	
-	  render: function() {
-	    return (
-	      React.createElement("div", {className: "comment"}, 
-	        React.createElement("strong", {className: "commentAuthor"}, 
-	          this.props.author, ":" 
-	        ), 
-	        React.createElement("span", {dangerouslySetInnerHTML: this.rawMarkup()})
-	      )
-	    );
-	  }
-	});
-	
-	module.exports = CommentBox;
-
-/***/ },
-/* 215 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/** @jsx React.DOM */'use strict';
-	
-	var React  = __webpack_require__(2);
-	
-	var FileThumbnail = React.createClass({displayName: "FileThumbnail",
-		render: function() {
-			return (
-				React.createElement("div", {style: {float: 'left'}, className: "col-md-3 hoverable"}, 
-					React.createElement("div", {style: {position: 'relative'}}, 
-						React.createElement("h4", {style: {textAlign: 'center'}}, "Title: ", this.props.data.title), 
-						React.createElement("div", {style: {textAlign: 'center', fontStyle: 'italic'}}, "Composer: ", this.props.data.composer), 
-						React.createElement("img", {src: this.props.data.thumbnail_file, className: "thumbnail_pic"})
-					)
-				)
-				);
-		}
-	});
-	
-	module.exports = FileThumbnail;
-
-/***/ },
-/* 216 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/** @jsx React.DOM */'use strict';
-	
-	var React  = __webpack_require__(2);
-	
-	var Footer = React.createClass({displayName: "Footer",
-	    render: function() {
-	        return (
-	            React.createElement("div", {className: "footer"}, 
-	                React.createElement("br", null), 
-	                React.createElement("br", null), 
-	                React.createElement("br", null), 
-	                React.createElement("div", {style: { textAlign: 'center'}}, "Copyright 2015 Piece of Sheet Inc.")
-	            )
-	            );
-	    }
-	});
-	
-	module.exports = Footer;
-
-/***/ },
-/* 217 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/** @jsx React.DOM */var $ = __webpack_require__(218);
+	/** @jsx React.DOM */var $ = __webpack_require__(213);
 	
 	// authentication object
 	var Auth = {
@@ -24978,7 +24818,7 @@
 	  logout: function(cb) {
 	    delete localStorage.token;
 	    this.onChange(false);
-	    if (cb) cb();
+	    if (cb) cb(true);
 	  },
 	  // check if user is logged in
 	  loggedIn: function() {
@@ -24990,8 +24830,9 @@
 	
 	module.exports = Auth;
 
+
 /***/ },
-/* 218 */
+/* 213 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/** @jsx React.DOM *//*!
@@ -34204,6 +34045,277 @@
 	return jQuery;
 	
 	}));
+
+
+/***/ },
+/* 214 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/** @jsx React.DOM */'use strict';
+	
+	var React  = __webpack_require__(2);
+	
+	var BrowseHeader = React.createClass({displayName: "BrowseHeader",
+	    render: function() {
+	        return (
+	            React.createElement("div", null, 
+	                React.createElement("h1", null, this.props.title), React.createElement("br", null), 
+	                "Number of files uploaded: ", this.props.numFiles, React.createElement("br", null), React.createElement("br", null)
+	            )
+	            );
+	    }
+	});
+	
+	module.exports = BrowseHeader;
+
+/***/ },
+/* 215 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/** @jsx React.DOM */'use strict';
+	
+	var React  = __webpack_require__(2);
+	
+	var CommentBox = __webpack_require__(216);
+	var FileThumbnail = __webpack_require__(217);
+	
+	var Browse = React.createClass({displayName: "Browse",
+		// showFiles: function() {
+		// 	var ret = '';
+		// 	this.props.files.forEach(function(entry) {
+		// 		console.log( entry );
+		// 		ret += entry.title + '\n';
+				
+		// 		ret += (
+		// 			<CommentBox data={entry.comments} />
+		// 			);
+		// 	});
+		// 	return ret;
+		// },
+	    render: function() {
+	        var content = this.props.files.map( function( file ) {
+	        	return ( 
+	        		React.createElement(FileThumbnail, {data: file})
+	        		);
+	        });
+	        return (
+	        	React.createElement("div", null, 
+	        		content
+	        	)
+	        	);
+	        // return (
+	        //     <div>
+	        //     	{this.showFiles()}
+	        //     </div>
+	        //     );
+	    }
+	});
+	
+	module.exports = Browse;
+
+/***/ },
+/* 216 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/** @jsx React.DOM */'use strict';
+	
+	var React  = __webpack_require__(2);
+	
+	var CommentBox = React.createClass({displayName: "CommentBox",
+	  render: function() {
+	    return (
+	      React.createElement("div", {className: "commentBox"}, 
+	        React.createElement("h1", null, "Comments"), 
+	        React.createElement(CommentList, {data: this.props.data}), 
+	        React.createElement(CommentForm, null)
+	      )
+	    );
+	  }
+	});
+	
+	var CommentList = React.createClass({displayName: "CommentList",
+	  render: function() {
+	    var commentNodes = this.props.data.map(function (comment) {
+	      return (
+	        React.createElement(Comment, {author: comment.name}, 
+	          comment.text
+	        )
+	      );
+	    });
+	    return (
+	      React.createElement("div", {className: "commentList"}, 
+	        commentNodes
+	      )
+	    );
+	  }
+	});
+	
+	var CommentForm = React.createClass({displayName: "CommentForm",
+	  render: function() {
+	    return (
+	      React.createElement("div", {className: "commentForm"}, 
+	        React.createElement("strong", null, "You:"), React.createElement("br", null), 
+	        React.createElement("input", {type: "text"})
+	      )
+	    );
+	  }
+	});
+	
+	var Comment = React.createClass({displayName: "Comment",
+	  rawMarkup: function() {
+	    var rawMarkup = marked(this.props.children.toString(), {sanitize: true});
+	    return { __html: rawMarkup };
+	  },
+	
+	  render: function() {
+	    return (
+	      React.createElement("div", {className: "comment"}, 
+	        React.createElement("strong", {className: "commentAuthor"}, 
+	          this.props.author, ":" 
+	        ), 
+	        React.createElement("span", {dangerouslySetInnerHTML: this.rawMarkup()})
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = CommentBox;
+
+/***/ },
+/* 217 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/** @jsx React.DOM */'use strict';
+	
+	var React  = __webpack_require__(2);
+	
+	var FileThumbnail = React.createClass({displayName: "FileThumbnail",
+		render: function() {
+			return (
+				React.createElement("div", {style: {float: 'left'}, className: "col-md-3 hoverable"}, 
+					React.createElement("div", {style: {position: 'relative'}}, 
+						React.createElement("h4", {style: {textAlign: 'center'}}, "Title: ", this.props.data.title), 
+						React.createElement("div", {style: {textAlign: 'center', fontStyle: 'italic'}}, "Composer: ", this.props.data.composer), 
+						React.createElement("img", {src: this.props.data.thumbnail_file, className: "thumbnail_pic"})
+					)
+				)
+				);
+		}
+	});
+	
+	module.exports = FileThumbnail;
+
+/***/ },
+/* 218 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/** @jsx React.DOM */'use strict';
+	
+	var React  = __webpack_require__(2);
+	
+	var Footer = React.createClass({displayName: "Footer",
+	    render: function() {
+	        return (
+	            React.createElement("div", {className: "footer"}, 
+	                React.createElement("br", null), 
+	                React.createElement("br", null), 
+	                React.createElement("br", null), 
+	                React.createElement("div", {style: { textAlign: 'center'}}, "Copyright 2015 Piece of Sheet Inc.")
+	            )
+	            );
+	    }
+	});
+	
+	module.exports = Footer;
+
+/***/ },
+/* 219 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/** @jsx React.DOM */'use strict';
+	
+	var React  = __webpack_require__(2);
+	var ReactRouter = __webpack_require__(160);
+	var Auth = __webpack_require__(212);
+	
+	var RegisterPanel = React.createClass({displayName: "RegisterPanel",
+	  getInitialState: function() {
+	    return {
+	      error: false
+	    };
+	  },
+	
+	  register: function() {
+	    var username = this.refs.username.value;
+	    var password = this.refs.password.value;
+	
+	    if(this.refs.password.value !== this.refs.password_two.value)
+	    {
+	      this.setState({
+	        error: true,
+	        message: 'password must match'
+	      });
+	      return;
+	    }
+	    Auth.register(username, password, function(registered) {
+	      if(registered)
+	      {
+	        this.setState({
+	          error: false,
+	          registered: true
+	        });
+	        Auth.login(username, password, function(loggedIn) {
+	          if(loggedIn)
+	          {
+	            this.setState({
+	              error: false,
+	              loggedIn: true
+	            });
+	          }
+	          else
+	          {
+	            this.setState({
+	              error: true
+	            });
+	          }
+	        }.bind(this));
+	      }
+	      else
+	      {
+	        this.setState({
+	          error: true,
+	          message: 'Failed to Register.'
+	        });
+	      }
+	    }.bind(this));
+	  },
+	
+	  render: function() {
+	    if(!this.state.loggedIn)
+	    {
+	      return (
+	        React.createElement("div", {className: "welcome"}, 
+	          React.createElement("h1", null, "Register"), 
+	          React.createElement("form", {onSubmit: this.register}, 
+	            React.createElement("div", {className: "form-group"}, 
+	              React.createElement("input", {type: "text", ref: "username", className: "form-control input-md", placeholder: "Username"}), 
+	              React.createElement("input", {type: "password", ref: "password", className: "form-control input-md", placeholder: "Password"}), 
+	              React.createElement("input", {type: "password", ref: "password_two", className: "form-control input-md", placeholder: "Repeat Password"})
+	            ), 
+	            React.createElement("button", {type: "submit", className: "btn btn-default"}, "Register")
+	          )
+	        )
+	      );
+	    }
+	    else {
+	      return (
+	        React.createElement("div", null)
+	      );
+	    }
+	  },
+	});
+	
+	module.exports = RegisterPanel;
 
 
 /***/ }
