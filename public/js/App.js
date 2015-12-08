@@ -91,12 +91,16 @@ var MyUploads = React.createClass({
 var Home = React.createClass({
     render: function() {
         return (
-            <div>
-                Hello, World!<br />
-                <Link to="/browse">Browse</Link><br />
-                <Link to="/favorites">Favorites</Link><br />
-                <Link to="/uploads">My Uploads</Link><br />
-            </div>
+        <div class="row">
+          <div className="col-xs-12 col-sm-6 col-lg-8 welcome">
+            <h3>Hello, World!</h3>
+            <Link to="/browse">Browse</Link><br />
+            <Link to="/favorites">Favorites</Link><br />
+            <Link to="/uploads">My Uploads</Link><br />
+          </div>
+          <div className="col-xs-6 col-lg-4 welcome">.col-xs-6 .col-lg-4</div>
+
+        </div>
             );
     }
 })
