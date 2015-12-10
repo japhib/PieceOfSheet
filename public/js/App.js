@@ -115,7 +115,8 @@ var Home = React.createClass({
             <h3> Your new home for sheet music.</h3>
             <Link to="/browse">Browse</Link><br />
             <Link to="/favorites">Favorites</Link><br />
-            <Link to="/uploads">My Uploads</Link><br />
+            <Link to="/my-uploads">My Uploads</Link><br />
+            <Link to="/upload">Upload Music</Link><br />
             </div>
           </div>
           <div className="col-xs-6 col-lg-4 welcome"><RegisterPanel onLoginChange={this.onLoginChange} /></div>
