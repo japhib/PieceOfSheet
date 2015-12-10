@@ -15,7 +15,7 @@ var RegisterPanel = React.createClass({
     var username = this.refs.username.value;
     var password = this.refs.password.value;
 
-    event.preventDefault();
+    // event.preventDefault();
 
     if(this.refs.password.value !== this.refs.password_two.value)
     {

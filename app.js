@@ -50,8 +50,11 @@ app.post('/login', function(req, res) {
     var password = req.body.password;
     // Hash the password with the salt
     var hash = bcrypt.hashSync( password, salt);
-    User.find({ username: username, password_hash: hash }, function (err,found_users) {
-        if ( !!found_users ) {
+    User.findOne({ username: username, password_hash: hash }, function (err,found_user) {
+        console.log('\n')
+        console.log(found_user)
+        console.log('\n')
+        if ( !!found_user ) {
             console.log("\nfound user in login...\n")
             res.send({loggedIn:true, error: null, token: hash, name: username});
         } else {
@@ -66,8 +69,10 @@ app.post('/register', function( req, res ) {
     var password = req.body.password;
     // Hash the password with the salt
     var hash = bcrypt.hashSync( password, salt);
-    User.find({ username: username }, function (err, user) {
-        console.log('\n' + user + '\n')
+    User.findOne({ username: username }, function (err, user) {
+        console.log('\n')
+        console.log(user)
+        console.log('\n')
         if ( !user ) {
             console.log('\ninserting new user....\n');
             var newUser = new User({username: username, password_hash: hash});
@@ -150,7 +155,7 @@ app.post('/upload', function( req, res ) {
 app.get('/all-uploads', function( req, res ) {
     SheetMusic.find({}, function (err, music) {
         res.send(music);
-    }); 
+    });
 })
 
 ////////////////////

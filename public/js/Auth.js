@@ -7,6 +7,7 @@ var Auth = {
 	    var url = "/register";
 	    $.ajax({
 	      url: url,
+        dataType:'json',
 	      type: 'POST',
 	      data: {
 	        username: username,
@@ -25,10 +26,12 @@ var Auth = {
 	        if (cb)
 	          cb(res.loggedIn);
 	      }.bind(this),
+
 	      error: function(xhr, status, err) {
           console.log(res);
 	        // if there is an error, remove any login token
 	        delete localStorage.token;
+          delete localStorafe.name;
 	        if (cb)
 	          cb(false);
 	      }.bind(this)
@@ -81,6 +84,7 @@ var Auth = {
   // logout the user, call the callback when complete
   logout: function(cb) {
     delete localStorage.token;
+    delete localStorage.name;
 //    this.onChange(false);
     if (cb) cb(true);
   },

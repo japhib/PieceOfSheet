@@ -50,7 +50,7 @@ var MyUploads = React.createClass({
 var Home = React.createClass({
     getInitialState: function() {
       return ({
-        loggedIn: this.props.loggedIn
+        loggedIn: Auth.loggedIn()
       });
     },
 
@@ -58,7 +58,8 @@ var Home = React.createClass({
       this.setState({
         loggedIn: status
       });
-      this.props.onLoginChange(status);
+      // console.log(typeof this.props.onLoginChange)
+      // this.props.onLoginChange(status);
     },
 
     getLoginStatus: function() {
@@ -121,9 +122,9 @@ var App = React.createClass({
 
     renderChildren: function() {
 
-      for(i = 0; i < this.props.children.length; i++)
+      for(var i = 0; i < 1; i++)
       {
-        console.log(this.props.children[i].typeof);
+        console.log(this.props.children);
       }
       return React.Children.map(this.props.children, function(child) {
         if(child.type === Home.type)
