@@ -13,7 +13,7 @@ var Browse = React.createClass({
         };
     },
     componentDidMount: function() {
-        $.get('/all-uploads', function( data ) {
+        $.get(this.props.source, function( data ) {
             if ( this.isMounted() ) {
                 this.setState( {files:data} );
             }
@@ -27,7 +27,7 @@ var Browse = React.createClass({
         });
         return (
         	<div>
-        		<BrowseHeader numFiles={this.state.files.length} title="Browse all uploads" />
+        		<BrowseHeader numFiles={this.state.files.length} title={this.props.title} />
                 {content}
         	</div>
         	);

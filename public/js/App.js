@@ -20,7 +20,7 @@ var Upload = require('./Upload');
 var BrowsePage = React.createClass({
     render: function() {
         return (
-            <Browse />
+            <Browse source="/all-uploads" title="Browse all uploads" />
             );
     }
 });
@@ -29,8 +29,7 @@ var Favorites = React.createClass({
     render: function() {
         return (
             <div>
-                <BrowseHeader numFiles={Files.length} title="Favorites" />
-                <Browse files={Files} />
+                <Browse source="/favorites" title="Favorites" />
             </div>
             );
     }
@@ -40,8 +39,7 @@ var MyUploads = React.createClass({
     render: function() {
         return (
             <div>
-                <BrowseHeader numFiles={Files.length} title="My Uploads" />
-                <Browse files={Files} />
+                <Browse source="/my-uploads" title="My Uploads" />
             </div>
             );
     }
