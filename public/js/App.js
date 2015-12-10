@@ -16,54 +16,11 @@ var Footer = require('./Footer');
 var RegisterPanel = require('./RegisterPanel');
 var Upload = require('./Upload');
 
-var Files = [
-{
-    title: 'Aria in F major, BWV 587',
-    composer: 'Johann Sebastian Bach',
-    filename: 'Bach_-_BGA_-_BWV_587.pdf',
-    thumbnail_file: 'Bach_-_BGA_-_BWV_587.pdf_p0001.jpeg',
-    description: 'An aria written in the glorious key of F major!',
-    comments: [
-    {
-        name: 'jbergeson',
-        text: 'this is a first comment'
-    },
-    {
-        name: 'sebrantley',
-        text: 'I think this comment is the second.'
-    }
-    ]
-},
-{
-    title: 'Aria in G minor, BWV 588',
-    composer: 'Johannes Sebastianes Baches',
-    filename: 'Bach_-_BGA_-_BWV_587.pdf',
-    description: 'An aria written in the glorious key of F major!',
-    comments: [
-    {
-        name: 'jbergeson',
-        text: 'this is a first comment'
-    },
-    {
-        name: 'sebrantley',
-        text: 'I think this comment is the second.'
-    }
-    ]
-}
-];
-
-var headerProps = {
-    numFiles: Files.length
-};
-
 
 var BrowsePage = React.createClass({
     render: function() {
         return (
-            <div>
-                <BrowseHeader numFiles={Files.length} title="Browse all uploads" />
-                <Browse files={Files} />
-            </div>
+            <Browse />
             );
     }
 });

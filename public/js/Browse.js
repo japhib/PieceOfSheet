@@ -4,36 +4,33 @@ var React  = require('react');
 
 var CommentBox = require('./CommentBox');
 var FileThumbnail = require('./FileThumbnail');
+var BrowseHeader = require('./BrowseHeader');
 
 var Browse = React.createClass({
-	// showFiles: function() {
-	// 	var ret = '';
-	// 	this.props.files.forEach(function(entry) {
-	// 		console.log( entry );
-	// 		ret += entry.title + '\n';
-			
-	// 		ret += (
-	// 			<CommentBox data={entry.comments} />
-	// 			);
-	// 	});
-	// 	return ret;
-	// },
+    getInitialState: function() {
+        return {
+            files: []
+        };
+    },
+    componentDidMount: function() {
+        $.get('/all-uploads', function( data ) {
+            if ( this.isMounted() ) {
+                this.setState( {files:data} );
+            }
+        }.bind(this));
+    },
     render: function() {
-        var content = this.props.files.map( function( file ) {
+        var content = this.state.files.map( function( file ) {
         	return ( 
         		<FileThumbnail data={file} />
         		);
         });
         return (
         	<div>
-        		{content}
+        		<BrowseHeader numFiles={this.state.files.length} title="Browse all uploads" />
+                {content}
         	</div>
         	);
-        // return (
-        //     <div>
-        //     	{this.showFiles()}
-        //     </div>
-        //     );
     }
 });
 
