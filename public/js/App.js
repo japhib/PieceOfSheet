@@ -14,6 +14,7 @@ var BrowseHeader = require('./BrowseHeader');
 var Browse = require('./Browse');
 var Footer = require('./Footer');
 var RegisterPanel = require('./RegisterPanel');
+var Upload = require('./Upload');
 
 var Files = [
 {
@@ -130,7 +131,8 @@ var Home = React.createClass({
             <h3> Your new home for sheet music.</h3>
             <Link to="/browse">Browse</Link><br />
             <Link to="/favorites">Favorites</Link><br />
-            <Link to="/uploads">My Uploads</Link><br />
+            <Link to="/my-uploads">My Uploads</Link><br />
+            <Link to="/upload">Upload Music</Link><br />
           </div>
         );
       }
@@ -190,8 +192,9 @@ ReactDOM.render(
     <Router>
         <Route path="/" component={App}>
           <Route path="browse" component={BrowsePage} />
-          <Route path="uploads" component={MyUploads} />
+          <Route path="my-uploads" component={MyUploads} />
           <Route path="favorites" component={Favorites} />
+          <Route path="upload" component={Upload} />
           <IndexRoute component={Home} />
         </Route>
     </Router>

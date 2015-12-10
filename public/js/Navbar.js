@@ -111,8 +111,8 @@ var Navbar = React.createClass({
 		this.props.onLoginChange(status);
 	},
 
-  render: function() {
-    return (
+  	render: function() {
+	    return (
 			<nav className='navbar navbar-inverse navbar-fixed-top'>
 				<div className='container-fluid'>
 					<div className='navbar-header'>
@@ -127,19 +127,20 @@ var Navbar = React.createClass({
 					<div className='collapse navbar-collapse' id='bs-example-navbar-collapse-1'>
 						<ul className='nav navbar-nav'>
 							<li className='dropdown'>
-	          <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
-	          <ul className="dropdown-menu">
-	            <li><a href="/#/browse">Browse</a></li>
-	            <li><a href="/#/favorites">Favorites</a></li>
-	            <li><a href="/#/uploads">Uploads</a></li>
-	          </ul>
-	        </li>
+					          <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+					          <ul className="dropdown-menu">
+					            <li><a href="/#/browse">Browse</a></li>
+					            <li><a href="/#/favorites">Favorites</a></li>
+					            <li><a href="/#/my-uploads">My Uploads</a></li>
+					            <li><a href="/#/upload">Upload Music</a></li>
+					          </ul>
+					        </li>
 						</ul>
 						<LoginPanel loggedIn={this.state.loggedIn} onLoginChange={this.onLoginChange} />
 					</div>
 				</div>
 			</nav>
-		);
+			);
 	},
 });
 

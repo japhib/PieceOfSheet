@@ -35,13 +35,6 @@ nav.navbar {
 		margin: 20px;
 		float: right;
 	}
-
-	.navbarCenter {
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		transform: translate(-50%, -50%);
-	}
 }
 
 .plain_white_link {
@@ -88,4 +81,45 @@ img.thumbnail_pic {
 	width: 90%;
 	margin: 5px auto;
 	display: block;
+}
+
+form.upload-form {
+	td {
+		padding: 10px;
+
+		@input-width: 300px;
+
+		textarea {
+			width: @input-width;
+			height: 150px;
+		}
+
+		input[type='text'] {
+			width: @input-width;
+		}
+
+		.btn-file {
+			position: relative;
+			overflow: hidden;
+		}
+		.btn-file input[type=file] {
+			position: absolute;
+			top: 0;
+			right: 0;
+			min-width: 100%;
+			min-height: 100%;
+			font-size: 100px;
+			text-align: right;
+			filter: alpha(opacity=0);
+			opacity: 0;
+			outline: none;
+			background: white;
+			cursor: inherit;
+			display: block;
+		}
+		.filename {
+			padding-left: 10px;
+			color: #404040;
+		}
+	}
 }
