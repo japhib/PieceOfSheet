@@ -74,7 +74,7 @@ var LoginPanel = React.createClass({
 		if ( this.state.loggedIn ) {
 			return (
 				<div className='navbar-right'>
-					<span className='white-text'>Hello, {this.name}!</span>
+					<p className="navbar-text">Hello, {this.name()}!</p>
 					<form className='navbar-form navbar-right LoginPanel' onSubmit={this.logout}>
 						<div className='form-group'>
 						</div>
@@ -92,6 +92,35 @@ var LoginPanel = React.createClass({
 					<button type='submit' className='btn btn-default'>Login</button>
 				</form>
 				);
+		}
+	}
+});
+
+var DropMenu = React.createClass({
+	render: function() {
+		if(this.props.loggedIn)
+		{
+			return (
+				<li className='dropdown'>
+							<a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Menu <span class="caret"></span></a>
+							<ul className="dropdown-menu">
+								<li><a href="/#/browse">Browse</a></li>
+								<li><a href="/#/favorites">Favorites</a></li>
+								<li><a href="/#/my-uploads">My Uploads</a></li>
+								<li><a href="/#/upload">Upload Music</a></li>
+							</ul>
+				</li>
+			);
+		}
+		else {
+			return (
+				<li className='dropdown'>
+							<a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Menu <span class="caret"></span></a>
+							<ul className="dropdown-menu">
+								<li><a href="/#/browse">Browse</a></li>
+							</ul>
+				</li>
+			);
 		}
 	}
 });
@@ -126,15 +155,7 @@ var Navbar = React.createClass({
 					</div>
 					<div className='collapse navbar-collapse' id='bs-example-navbar-collapse-1'>
 						<ul className='nav navbar-nav'>
-							<li className='dropdown'>
-					          <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
-					          <ul className="dropdown-menu">
-					            <li><a href="/#/browse">Browse</a></li>
-					            <li><a href="/#/favorites">Favorites</a></li>
-					            <li><a href="/#/my-uploads">My Uploads</a></li>
-					            <li><a href="/#/upload">Upload Music</a></li>
-					          </ul>
-					        </li>
+							<DropMenu loggedIn={this.state.loggedIn} />
 						</ul>
 						<LoginPanel loggedIn={this.state.loggedIn} onLoginChange={this.onLoginChange} />
 					</div>

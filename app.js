@@ -49,9 +49,11 @@ app.post('/login', function(req, res) {
     // Hash the password with the salt
     var hash = bcrypt.hashSync( password, salt);
     User.find({ username: username, password_hash: hash }, function (err,found_users) {
-        if ( found_users != null ) {
+        if ( !!found_users ) {
+            console.log("\nfound user in login...\n")
             res.send({loggedIn:true, error: null, token: hash, name: username});
         } else {
+          console.log("\nuser does not exist...\n")
             res.send({loggedIn:false, error: "invalid username or password"});
         }
     });
@@ -63,11 +65,14 @@ app.post('/register', function( req, res ) {
     // Hash the password with the salt
     var hash = bcrypt.hashSync( password, salt);
     User.find({ username: username }, function (err, user) {
-        if ( user == null ) {
+        console.log('\n' + user + '\n')
+        if ( !user ) {
+            console.log('\ninserting new user....\n');
             var newUser = new User({username: username, password_hash: hash});
             newUser.save();
-            res.send({loggedIn:true, error: null, token: hash})
+            res.send({loggedIn:true, error: null, token: hash, name: username});
         } else {
+          console.log('\nusername already exists\n');
             res.send({loggedIn:false, error: "That username already exists!"})
         }
     })

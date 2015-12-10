@@ -8,6 +8,8 @@ var Route = ReactRouter.Route;
 var IndexRoute = ReactRouter.IndexRoute;
 var Link = ReactRouter.Link;
 
+var Auth = require('./Auth');
+
 // Import my other source files
 var Navbar = require('./Navbar');
 var BrowseHeader = require('./BrowseHeader');
@@ -104,8 +106,13 @@ var Home = React.createClass({
       this.props.onLoginChange(status);
     },
 
+    getLoginStatus: function() {
+      return Auth.loggedIn();
+    },
+
     render: function() {
-      if(!this.state.loggedIn)
+      console.log('rendering home..')
+      if(!this.getLoginStatus())
       {
         return (
         <div class="row">
@@ -113,9 +120,8 @@ var Home = React.createClass({
             <div className='welcome'>
             <h1>Welcome to Piece of Sheet!</h1>
             <h3> Your new home for sheet music.</h3>
+            <div className='spacermid-loggedout' />
             <Link to="/browse">Browse</Link><br />
-            <Link to="/favorites">Favorites</Link><br />
-            <Link to="/uploads">My Uploads</Link><br />
             </div>
           </div>
           <div className="col-xs-6 col-lg-4 welcome"><RegisterPanel onLoginChange={this.onLoginChange} /></div>
@@ -129,6 +135,7 @@ var Home = React.createClass({
           <div className="welcome">
             <h1>Welcome to Piece of Sheet!</h1>
             <h3> Your new home for sheet music.</h3>
+            <div className='spacermid' />
             <Link to="/browse">Browse</Link><br />
             <Link to="/favorites">Favorites</Link><br />
             <Link to="/my-uploads">My Uploads</Link><br />
@@ -146,7 +153,7 @@ var App = React.createClass({
 
     getInitialState: function() {
       return ({
-        loggedIn: false
+        loggedIn: Auth.loggedIn()
       });
     },
 

@@ -12,23 +12,29 @@ var Auth = {
 	        username: username,
 	        password: password
 	      },
+
 	      // on success, store a login token
 	      success: function(res) {
-	        sessionStorage.token = res.token;
-	        sessionStorage.name = res.name;
-	        this.onChange(true);
+          console.log('success!\n');
+          console.log(res);
+          if(res.loggedIn)
+          {
+  	        localStorage.token = res.token;
+  	        localStorage.name = res.name;
+          }
 	        if (cb)
-	          cb(true);
+	          cb(res.loggedIn);
 	      }.bind(this),
 	      error: function(xhr, status, err) {
+          console.log(res);
 	        // if there is an error, remove any login token
-	        delete sessionStorage.token;
-	        this.onChange(false);
+	        delete localStorage.token;
 	        if (cb)
 	          cb(false);
 	      }.bind(this)
 	    });
   	},
+
   	isLoggedIn: function( username, password ) {
   		var ret = $.get('/isLoggedIn');
   		return ret;
@@ -49,16 +55,16 @@ var Auth = {
 	      	console.log(res);
 	      	if ( res.loggedIn ) {
 		        // on success, store a login token
-		        sessionStorage.token = res.token;
-		        sessionStorage.name = res.name;
+		        localStorage.token = res.token;
+		        localStorage.name = res.name;
 		  	}
 		  	if (cb)
 		  		cb(res.loggedIn);
 	      }.bind(this),
 	      error: function(xhr, status, err) {
 	        // if there is an error, remove any login token
-	        delete sessionStorage.token;
-	        this.onChange(false);
+	        delete localStorage.token;
+	//        this.onChange(false);
 	        if (cb)
 	          cb(false);
 	      }.bind(this)
@@ -66,21 +72,21 @@ var Auth = {
     },
   // get the token from local storage
   getToken: function() {
-    return sessionStorage.token;
+    return localStorage.token;
   },
   // get the name from local storage
   getName: function() {
-    return sessionStorage.name;
+    return localStorage.name;
   },
   // logout the user, call the callback when complete
   logout: function(cb) {
-    delete sessionStorage.token;
-    this.onChange(false);
+    delete localStorage.token;
+//    this.onChange(false);
     if (cb) cb(true);
   },
   // check if user is logged in
   loggedIn: function() {
-    return !!sessionStorage.token;
+    return !!localStorage.token;
   },
 };
 
