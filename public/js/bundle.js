@@ -143,30 +143,93 @@
 	});
 	
 	var Home = React.createClass({displayName: "Home",
+	    getInitialState: function() {
+	      return ({
+	        loggedIn: this.props.loggedIn
+	      });
+	    },
+	
+	    onLoginChange: function(status) {
+	      this.setState({
+	        loggedIn: status
+	      });
+	      this.props.onLoginChange(status);
+	    },
+	
 	    render: function() {
+	      if(!this.state.loggedIn)
+	      {
 	        return (
 	        React.createElement("div", {class: "row"}, 
 	          React.createElement("div", {className: "col-xs-12 col-sm-6 col-lg-8 welcome"}, 
-	            React.createElement("h3", null, "Hello, World!"), 
+	            React.createElement("div", {className: "welcome"}, 
+	            React.createElement("h1", null, "Welcome to Piece of Sheet!"), 
+	            React.createElement("h3", null, " Your new home for sheet music."), 
 	            React.createElement(Link, {to: "/browse"}, "Browse"), React.createElement("br", null), 
 	            React.createElement(Link, {to: "/favorites"}, "Favorites"), React.createElement("br", null), 
 	            React.createElement(Link, {to: "/uploads"}, "My Uploads"), React.createElement("br", null)
+	            )
 	          ), 
-	          React.createElement("div", {className: "col-xs-6 col-lg-4 welcome"}, React.createElement(RegisterPanel, null))
+	          React.createElement("div", {className: "col-xs-6 col-lg-4 welcome"}, React.createElement(RegisterPanel, {onLoginChange: this.onLoginChange}))
 	
 	        )
-	            );
+	        );
+	      }
+	      else
+	      {
+	        return (
+	          React.createElement("div", {className: "welcome"}, 
+	            React.createElement("h1", null, "Welcome to Piece of Sheet!"), 
+	            React.createElement("h3", null, " Your new home for sheet music."), 
+	            React.createElement(Link, {to: "/browse"}, "Browse"), React.createElement("br", null), 
+	            React.createElement(Link, {to: "/favorites"}, "Favorites"), React.createElement("br", null), 
+	            React.createElement(Link, {to: "/uploads"}, "My Uploads"), React.createElement("br", null)
+	          )
+	        );
+	      }
 	    }
 	})
 	
 	
 	// The component to be rendered
 	var App = React.createClass({displayName: "App",
+	    loggedIn: false,
+	
+	    getInitialState: function() {
+	      return ({
+	        loggedIn: false
+	      });
+	    },
+	
+	    onLoginChange: function(status) {
+	      this.setState({
+	        loggedIn: status
+	      });
+	      this.loggedIn = status;
+	    },
+	
+	    renderChildren: function() {
+	
+	      for(i = 0; i < this.props.children.length; i++)
+	      {
+	        console.log(this.props.children[i].typeof);
+	      }
+	      return React.Children.map(this.props.children, function(child) {
+	        if(child.type === Home.type)
+	        {
+	          return React.cloneElement(child, {loggedIn: this.loggedIn, onLoginChange: this.onLoginChange});
+	        }
+	        else {
+	          return child
+	        }
+	      }.bind(this));
+	    },
+	
 	    render: function() {
 	        return (
 	            React.createElement("div", null, 
-	                React.createElement(Navbar, null), 
-	                this.props.children, 
+	                React.createElement(Navbar, {loggedIn: this.state.loggedIn, onLoginChange: this.onLoginChange}), 
+	                this.renderChildren(), 
 	                React.createElement(Footer, null)
 	            )
 	            );
@@ -24600,6 +24663,7 @@
 		getInitialState: function() {
 			return {
 				// there was an error on logging in
+				loggedIn: this.props.loggedIn,
 				error: false
 			};
 		},
@@ -24614,6 +24678,7 @@
 				this.setState({
 					error: true
 				});
+				this.props.onLoginChange(false);
 				return;
 			}
 			// login via API
@@ -24624,12 +24689,14 @@
 						loggedIn: false,
 						error: true
 					});
+					this.props.onLoginChange(false);
 					return;
 				} else {
 					this.setState({
 						loggedIn: true,
 						error: false
 					});
+					this.props.onLoginChange(true);
 				}
 			}.bind(this));
 		},
@@ -24643,38 +24710,11 @@
 						loggedIn: false,
 						error: false
 					});
+					this.props.onLoginChange(false);
 				}
 			}.bind(this));
 		},
 	
-		register: function( event ) {
-			// prevent default browser submit
-			event.preventDefault();
-			// get data from form
-			var username = this.refs.username.value;
-			var password = this.refs.password.value;
-			if (!username || !password) {
-				this.setState({
-					error: true
-				});
-				return;
-			}
-			Auth.register(username, password, function(loggedIn) {
-				// login callback
-				if (!loggedIn) {
-					this.setState({
-						loggedIn: false,
-						error: true
-					});
-					return;
-				} else {
-					this.setState({
-						loggedIn: true,
-						error: false
-					});
-				}
-			}.bind(this));
-		},
 		render: function() {
 			if ( this.state.loggedIn ) {
 				return (
@@ -24699,6 +24739,20 @@
 	});
 	
 	var Navbar = React.createClass({displayName: "Navbar",
+		getInitialState: function() {
+				return({
+					loggedIn: this.props.loggedIn,
+					error: false
+				});
+		},
+	
+		onLoginChange: function(status) {
+			this.setState({
+				loggedIn: status
+			});
+			this.props.onLoginChange(status);
+		},
+	
 	  render: function() {
 	    return (
 				React.createElement("nav", {className: "navbar navbar-inverse navbar-fixed-top"}, 
@@ -24723,7 +24777,7 @@
 		          )
 		        )
 							), 
-							React.createElement(LoginPanel, null)
+							React.createElement(LoginPanel, {loggedIn: this.state.loggedIn, onLoginChange: this.onLoginChange})
 						)
 					)
 				)
@@ -34253,6 +34307,7 @@
 	    {
 	      this.setState({
 	        error: true,
+	        loggedIn: false,
 	        message: 'password must match'
 	      });
 	      return;
@@ -34271,6 +34326,7 @@
 	              error: false,
 	              loggedIn: true
 	            });
+	            this.props.onLoginChange(true);
 	          }
 	          else
 	          {
@@ -34296,12 +34352,14 @@
 	      return (
 	        React.createElement("div", {className: "welcome"}, 
 	          React.createElement("h1", null, "Register"), 
+	          React.createElement("div", {className: "spacertop"}), 
 	          React.createElement("form", {onSubmit: this.register}, 
 	            React.createElement("div", {className: "form-group"}, 
 	              React.createElement("input", {type: "text", ref: "username", className: "form-control input-md", placeholder: "Username"}), 
 	              React.createElement("input", {type: "password", ref: "password", className: "form-control input-md", placeholder: "Password"}), 
 	              React.createElement("input", {type: "password", ref: "password_two", className: "form-control input-md", placeholder: "Repeat Password"})
 	            ), 
+	            React.createElement("div", {className: "spacerbottom"}), 
 	            React.createElement("button", {type: "submit", className: "btn btn-default"}, "Register")
 	          )
 	        )

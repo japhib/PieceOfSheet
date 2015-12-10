@@ -90,30 +90,93 @@ var MyUploads = React.createClass({
 });
 
 var Home = React.createClass({
+    getInitialState: function() {
+      return ({
+        loggedIn: this.props.loggedIn
+      });
+    },
+
+    onLoginChange: function(status) {
+      this.setState({
+        loggedIn: status
+      });
+      this.props.onLoginChange(status);
+    },
+
     render: function() {
+      if(!this.state.loggedIn)
+      {
         return (
         <div class="row">
           <div className="col-xs-12 col-sm-6 col-lg-8 welcome">
-            <h3>Hello, World!</h3>
+            <div className='welcome'>
+            <h1>Welcome to Piece of Sheet!</h1>
+            <h3> Your new home for sheet music.</h3>
+            <Link to="/browse">Browse</Link><br />
+            <Link to="/favorites">Favorites</Link><br />
+            <Link to="/uploads">My Uploads</Link><br />
+            </div>
+          </div>
+          <div className="col-xs-6 col-lg-4 welcome"><RegisterPanel onLoginChange={this.onLoginChange} /></div>
+
+        </div>
+        );
+      }
+      else
+      {
+        return (
+          <div className="welcome">
+            <h1>Welcome to Piece of Sheet!</h1>
+            <h3> Your new home for sheet music.</h3>
             <Link to="/browse">Browse</Link><br />
             <Link to="/favorites">Favorites</Link><br />
             <Link to="/uploads">My Uploads</Link><br />
           </div>
-          <div className="col-xs-6 col-lg-4 welcome"><RegisterPanel /></div>
-
-        </div>
-            );
+        );
+      }
     }
 })
 
 
 // The component to be rendered
 var App = React.createClass({
+    loggedIn: false,
+
+    getInitialState: function() {
+      return ({
+        loggedIn: false
+      });
+    },
+
+    onLoginChange: function(status) {
+      this.setState({
+        loggedIn: status
+      });
+      this.loggedIn = status;
+    },
+
+    renderChildren: function() {
+
+      for(i = 0; i < this.props.children.length; i++)
+      {
+        console.log(this.props.children[i].typeof);
+      }
+      return React.Children.map(this.props.children, function(child) {
+        if(child.type === Home.type)
+        {
+          return React.cloneElement(child, {loggedIn: this.loggedIn, onLoginChange: this.onLoginChange});
+        }
+        else {
+          return child
+        }
+      }.bind(this));
+    },
+
     render: function() {
         return (
             <div>
-                <Navbar />
-                {this.props.children}
+                <Navbar loggedIn={this.state.loggedIn} onLoginChange={this.onLoginChange} />
+                {this.renderChildren()}
                 <Footer />
             </div>
             );

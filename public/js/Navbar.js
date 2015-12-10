@@ -10,6 +10,7 @@ var LoginPanel = React.createClass({
 	getInitialState: function() {
 		return {
 			// there was an error on logging in
+			loggedIn: this.props.loggedIn,
 			error: false
 		};
 	},
@@ -24,6 +25,7 @@ var LoginPanel = React.createClass({
 			this.setState({
 				error: true
 			});
+			this.props.onLoginChange(false);
 			return;
 		}
 		// login via API
@@ -34,12 +36,14 @@ var LoginPanel = React.createClass({
 					loggedIn: false,
 					error: true
 				});
+				this.props.onLoginChange(false);
 				return;
 			} else {
 				this.setState({
 					loggedIn: true,
 					error: false
 				});
+				this.props.onLoginChange(true);
 			}
 		}.bind(this));
 	},
@@ -53,38 +57,11 @@ var LoginPanel = React.createClass({
 					loggedIn: false,
 					error: false
 				});
+				this.props.onLoginChange(false);
 			}
 		}.bind(this));
 	},
 
-	register: function( event ) {
-		// prevent default browser submit
-		event.preventDefault();
-		// get data from form
-		var username = this.refs.username.value;
-		var password = this.refs.password.value;
-		if (!username || !password) {
-			this.setState({
-				error: true
-			});
-			return;
-		}
-		Auth.register(username, password, function(loggedIn) {
-			// login callback
-			if (!loggedIn) {
-				this.setState({
-					loggedIn: false,
-					error: true
-				});
-				return;
-			} else {
-				this.setState({
-					loggedIn: true,
-					error: false
-				});
-			}
-		}.bind(this));
-	},
 	render: function() {
 		if ( this.state.loggedIn ) {
 			return (
@@ -109,6 +86,20 @@ var LoginPanel = React.createClass({
 });
 
 var Navbar = React.createClass({
+	getInitialState: function() {
+			return({
+				loggedIn: this.props.loggedIn,
+				error: false
+			});
+	},
+
+	onLoginChange: function(status) {
+		this.setState({
+			loggedIn: status
+		});
+		this.props.onLoginChange(status);
+	},
+
   render: function() {
     return (
 			<nav className='navbar navbar-inverse navbar-fixed-top'>
@@ -133,7 +124,7 @@ var Navbar = React.createClass({
 	          </ul>
 	        </li>
 						</ul>
-						<LoginPanel />
+						<LoginPanel loggedIn={this.state.loggedIn} onLoginChange={this.onLoginChange} />
 					</div>
 				</div>
 			</nav>
