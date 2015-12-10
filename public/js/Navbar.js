@@ -9,10 +9,14 @@ var LoginPanel = React.createClass({
 	// initial state
 	getInitialState: function() {
 		return {
-			// there was an error on logging in
 			loggedIn: this.props.loggedIn,
+			// there was an error on logging in
 			error: false
 		};
+	},
+
+	componentDidMount: function() {
+		console.log( Auth.isLoggedIn() );
 	},
 
 	login: function( event ) {
@@ -62,14 +66,21 @@ var LoginPanel = React.createClass({
 		}.bind(this));
 	},
 
+	name: function() {
+		return Auth.getName();
+	},
+
 	render: function() {
 		if ( this.state.loggedIn ) {
 			return (
-				<form className='navbar-form navbar-right LoginPanel' onSubmit={this.logout}>
-					<div className='form-group'>
-					</div>
-					<button type='submit' className='btn btn-default'>Logout</button>
-				</form>
+				<div className='navbar-right'>
+					<span className='white-text'>Hello, {this.name}!</span>
+					<form className='navbar-form navbar-right LoginPanel' onSubmit={this.logout}>
+						<div className='form-group'>
+						</div>
+						<button type='submit' className='btn btn-default'>Logout</button>
+					</form>
+				</div>
 			);
 		} else {
 			return (

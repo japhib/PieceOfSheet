@@ -17,36 +17,12 @@ div.hoverable :hover {
 	color: black;
 }
 
-div.navbar {
+nav.navbar {
 
-	border-radius: 0px !important;
-	margin: 0px !important;
-
-	position: fixed;
-	left: 0px;
-	top: 0px;
-	border: 0px;
-
-	/*text-align: center;*/
-
-	width: 100%;
-	background: #361895;
-	color: #fff;
-
-	z-index: 5;
-
-	a {
-		.plain_white_link;
-		margin: 5px; 
-	}
-
-	h3 {
-		display: inline-block;
-		margin: 13px;
-	}
-
-	i {
-		display: inline-block;
+	span.white-text {
+		color: white;
+		margin: 0px 10px;
+		padding: 10px 0px;
 	}
 
 	// Positioning stuff
@@ -65,22 +41,6 @@ div.navbar {
 		top: 50%;
 		left: 50%;
 		transform: translate(-50%, -50%);
-	}
-
-	// Login panel
-	.LoginPanel {
-		@login_btn_background: #23115D;
-		input[type="submit"] {
-			background-color: @login_btn_background;
-			border-color: (@login_btn_background + #555);
-		}
-
-		input[type="text"] { 
-			.blacktext;
-		}
-		input[type="password"] {
-			.blacktext;
-		}
 	}
 }
 
@@ -105,22 +65,6 @@ div.navbar {
 		cursor: pointer;
 		text-decoration: underline;
 	}
-}
-
-.homepage_link {
-	.plain_white_link;
-
-	// &:hover {
-	// 	.plain_white_link;
-	// }
-
-	// &:active {
-	// 	.plain_white_link;
-	// }
-
-	// &:focus {
-	// 	.plain_white_link;
-	// }
 }
 
 div.footer {

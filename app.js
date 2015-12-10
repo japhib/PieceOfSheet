@@ -37,16 +37,23 @@ var salt = bcrypt.genSaltSync(10);
 // Models
 var User = require('./models/User');
 
+var login_cookie_name = 'loginId';
+
+app.get('/isLoggedIn', function(req, res) {
+    res.send(req.cookies);
+});
+
 app.post('/login', function(req, res) {
     var username = req.body.username;
     var password = req.body.password;
     // Hash the password with the salt
     var hash = bcrypt.hashSync( password, salt);
     User.find({ username: username, password_hash: hash }, function (err,found_users) {
-        if ( found_users != null )
-            res.send({loggedIn:true, error: null});
-        else
+        if ( found_users != null ) {
+            res.send({loggedIn:true, error: null, token: hash, name: username});
+        } else {
             res.send({loggedIn:false, error: "invalid username or password"});
+        }
     });
 });
 
@@ -59,15 +66,12 @@ app.post('/register', function( req, res ) {
         if ( user == null ) {
             var newUser = new User({username: username, password_hash: hash});
             newUser.save();
-            res.send({loggedIn:true, error: null})
+            res.send({loggedIn:true, error: null, token: hash})
         } else {
             res.send({loggedIn:false, error: "That username already exists!"})
         }
     })
 });
-
-// var jan = new User({username:"jan",password:"asdf"});
-// jan.save();
 
 ////////////////////
 ////////////////////

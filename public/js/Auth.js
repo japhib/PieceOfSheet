@@ -14,31 +14,27 @@ var Auth = {
 	      },
 	      // on success, store a login token
 	      success: function(res) {
-	        localStorage.token = res.token;
-	        localStorage.name = res.name;
+	        sessionStorage.token = res.token;
+	        sessionStorage.name = res.name;
 	        this.onChange(true);
 	        if (cb)
 	          cb(true);
 	      }.bind(this),
 	      error: function(xhr, status, err) {
 	        // if there is an error, remove any login token
-	        delete localStorage.token;
+	        delete sessionStorage.token;
 	        this.onChange(false);
 	        if (cb)
 	          cb(false);
 	      }.bind(this)
 	    });
   	},
+  	isLoggedIn: function( username, password ) {
+  		var ret = $.get('/isLoggedIn');
+  		return ret;
+  	},
     // login the user
     login: function(username, password, cb) {
-	    // check if token in local storage
-	    if (localStorage.token) {
-	      this.onChange(true);
-	      if (cb)
-	        cb(true);
-	      return;
-	    }
-
 	    // submit request to server
 	    var url = "/login";
 	    $.ajax({
@@ -50,16 +46,18 @@ var Auth = {
 	        password: password
 	      },
 	      success: function(res) {
-	        // on success, store a login token
-	        localStorage.token = res.token;
-	        localStorage.name = res.name;
-	        this.onChange(true);
-	        if (cb)
-	          cb(true);
+	      	console.log(res);
+	      	if ( res.loggedIn ) {
+		        // on success, store a login token
+		        sessionStorage.token = res.token;
+		        sessionStorage.name = res.name;
+		  	}
+		  	if (cb)
+		  		cb(res.loggedIn);
 	      }.bind(this),
 	      error: function(xhr, status, err) {
 	        // if there is an error, remove any login token
-	        delete localStorage.token;
+	        delete sessionStorage.token;
 	        this.onChange(false);
 	        if (cb)
 	          cb(false);
@@ -68,24 +66,22 @@ var Auth = {
     },
   // get the token from local storage
   getToken: function() {
-    return localStorage.token;
+    return sessionStorage.token;
   },
   // get the name from local storage
   getName: function() {
-    return localStorage.name;
+    return sessionStorage.name;
   },
   // logout the user, call the callback when complete
   logout: function(cb) {
-    delete localStorage.token;
+    delete sessionStorage.token;
     this.onChange(false);
     if (cb) cb(true);
   },
   // check if user is logged in
   loggedIn: function() {
-    return !!localStorage.token;
+    return !!sessionStorage.token;
   },
-  // default onChange function
-  onChange: function() {},
 };
 
 module.exports = Auth;
