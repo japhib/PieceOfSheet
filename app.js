@@ -4,7 +4,8 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-
+var exec = require('child_process').exec;
+var fs = require('fs');
 var app = express();
 
 // DB setup
@@ -19,8 +20,8 @@ app.use(require('less-middleware')( __dirname + '/public' ));
 
 // app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.urlencoded({ extended: false, limit: '50mb'}));
 app.use(cookieParser());
 
 app.use(express.static(path.join(__dirname, 'public')));
@@ -36,6 +37,7 @@ var salt = bcrypt.genSaltSync(10);
 
 // Models
 var User = require('./models/User');
+var SheetMusic = require('./models/SheetMusic');
 
 var login_cookie_name = 'loginId';
 
@@ -77,6 +79,79 @@ app.post('/register', function( req, res ) {
         }
     })
 });
+
+app.get('/upload', function( req, res ) {
+    res.send("You can only post to this page!");
+});
+
+app.post('/upload', function( req, res ) {
+    // read the post data into variables
+    var filename = req.body.filename_end;
+    var title = req.body.title;
+    var composer = req.body.composer;
+    var description = req.body.description;
+    var token = req.body.token;
+
+    // Make an entry for it in our DB
+    // First find which user it is that is uploading this
+    User.find({password_hash: token}, function(err, user) {
+
+        var username = 'jpbergeson';
+        // if ( err || user.length == 0 ) {
+        //     var result = {submitted:false,error:'invalid login'};
+        //     res.send(result);
+        // }
+        // var username = user[0].username;
+
+
+        var sm = new SheetMusic({
+            title: title,
+            composer: composer,
+            filename: filename,
+            thumbnail_file: filename + '_p0001.jpeg',
+            description: description,
+            comments: [],
+            uploader: username
+        });
+        sm.save(function(err) {
+            if (err)
+                console.log(err);
+        });
+
+        // Convert the file because it has been written to base 64.
+        var data_url = req.body.file;
+        var matches = data_url.match(/^data:.+\/(.+);base64,(.*)$/);
+        var ext = matches[1];
+        var base64_data = matches[2];
+        var buffer = new Buffer(base64_data, 'base64');
+        fs.writeFile(__dirname + '/public/media/' + filename, buffer, function (err) {
+            if ( err )
+                res.send(err)
+            else {
+                // file successfully uploaded!
+                res.send('success');
+
+                // Create a thumbnail of it
+                var command = './pdfThumbnail.sh ./public/media/' + filename;
+                console.log( command );
+                exec(command,
+                    function (error, stdout, stderr) {
+                        console.log('stdout: ' + stdout);
+                        console.log('stderr: ' + stderr);
+                        if (error !== null) {
+                          console.log('exec error: ' + error);
+                    }
+                });
+            }
+        });
+    });
+});
+
+app.get('/all-uploads', function( req, res ) {
+    SheetMusic.find({}, function (err, music) {
+        res.send(music);
+    }); 
+})
 
 ////////////////////
 ////////////////////
