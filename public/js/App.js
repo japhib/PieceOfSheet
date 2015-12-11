@@ -32,7 +32,7 @@ var Favorites = React.createClass({
     render: function() {
         return (
             <div>
-                <Browse source="/favorites" title="Favorites" />
+                <Browse source="/favorites" title="Favorites" user={Auth.getName() }/>
             </div>
             );
     }

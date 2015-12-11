@@ -1,6 +1,7 @@
 'use strict';
 
 var React  = require('react');
+var $ = require('jquery');
 
 var CommentBox = require('./CommentBox');
 var FileThumbnail = require('./FileThumbnail');
@@ -13,17 +14,39 @@ var Browse = React.createClass({
         };
     },
     componentDidMount: function() {
-        $.get(this.props.source, function( data ) {
-            if ( this.isMounted() ) {
-                this.setState( {files:data} );
-            }
-        }.bind(this));
-    },
+      $.ajax({
+        url: this.props.source,
+        dataType: 'json',
+        type: 'POST',
+        data: {
+          username: this.props.user
+        },
+        success: function(data) {
+          if(this.isMounted() ) {
+            this.setState( {files:data} )
+          }
+        }.bind(this)
+      });
+  },
+
     render: function() {
+      console.log('files');
+      console.log(this.state.files);
+        var source = this.props.source;
         var content = this.state.files.map( function( file ) {
-        	return ( 
-        		<FileThumbnail data={file} />
-        		);
+
+          if(source !== '/favorites')
+          {
+            return (
+          		<FileThumbnail data={file} />
+          		);
+          }
+          else
+          {
+            return (
+              <FileThumbnail data={JSON.parse(file)} />
+              );
+          }
         });
         return (
         	<div>

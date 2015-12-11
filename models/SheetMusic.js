@@ -9,7 +9,7 @@ var sheetMusicSchema = new Schema({
 	filename: String,
 	thumbnail_file: String,
 	description: String,
-	comments: Array,
+	comments: [],
 	uploader: String,
 });
 

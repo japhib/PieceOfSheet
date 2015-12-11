@@ -10,7 +10,7 @@ var sheetMusicSchema = new Schema({
 	thumbnail_file: String,
 	description: String,
 	comments: Array,
-	uploader: String
+	uploader: String,
 });
 
 var SheetMusic = mongoose.model('sheetmusic', sheetMusicSchema);

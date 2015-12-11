@@ -159,11 +159,43 @@ app.post('/upload', function( req, res ) {
     });
 });
 
-app.get('/favorites', function(req, res) {
-  Users.findOne({username: auth.getName()}, {favorites:1, _id:0}, function(err, userFavs) {
+app.post('/view', function(req, res) {
+  var filename = req.body.filename;
+  var title = req.body.title;
+
+  SheetMusic.findOne({title: title, filename: filename}, function(err, sheet) {
+
+    console.log('found file...')
+    console.log(sheet)
+    res.send(sheet);
+  });
+})
+
+app.post('/addfav', function(req, res) {
+  var sheet = req.body.sheet;
+  var username = req.body.username;
+
+  console.log('sheet')
+  console.log(sheet)
+  console.log('user')
+  console.log(username)
+
+
+  User.findOneAndUpdate({ username : username }, { $addToSet : { "favorites" : sheet}}, function(req, res)
+  {
+
+  });
+})
+
+app.post('/favorites', function(req, res) {
+  User.find({username: req.body.username}, function(err, userFavs) {
+
+    console.log('response');
+    console.log(userFavs[0].get("favorites"));
     if(!!userFavs)
     {
-      res.send(userFavs);
+      console.log('sending favs')
+      res.send(userFavs[0].get("favorites"));
     }
     else
     {
@@ -172,8 +204,10 @@ app.get('/favorites', function(req, res) {
   });
 })
 
-app.get('/all-uploads', function( req, res ) {
+app.post('/all-uploads', function( req, res ) {
     SheetMusic.find({}, function (err, music) {
+      console.log('response');
+      console.log(music);
         res.send(music);
     });
 })

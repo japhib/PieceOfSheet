@@ -6,7 +6,7 @@ var Schema = mongoose.Schema;
 var userSchema = new Schema({
   	username: {type: String, index: true, unique: true},
   	password_hash: String,
-	favorites: Array,
+	favorites: [],
 });
 
 var User = mongoose.model('users', userSchema);
