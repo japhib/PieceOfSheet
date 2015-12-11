@@ -17,7 +17,7 @@ var View = React.createClass({
                 <div className='musicData'>
                 <h1>Title: {this.data.title}</h1>
                 <h3>Composer: {this.data.composer}</h3>
-                    <img src={this.data.filename} />
+                    <iframe id="iframe" src={"media/" + this.data.filename}></iframe>
                 </div>
             </div>
         )

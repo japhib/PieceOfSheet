@@ -21,7 +21,7 @@ var FileThumbnail = React.createClass({displayName: "FileThumbnail",
                          <div style={{position: 'relative'}}>
                             <h4 style={{textAlign: 'center'}}> Title: {this.props.data.title}</h4>
                             <div style={{textAlign: 'center', fontStyle: 'italic'}}> Composer: {this.props.data.composer}</div>
-                            <img src={this.props.data.thumbnail_file} className="thumbnail_pic" />
+                            <img src={"media/" + this.props.data.thumbnail_file} className="thumbnail_pic" />
                          </div>
                      </div>
                 </div>

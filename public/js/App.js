@@ -97,7 +97,6 @@ var Home = React.createClass({
             <Link to="/favorites">Favorites</Link><br />
             <Link to="/my-uploads">My Uploads</Link><br />
             <Link to="/upload">Upload Music</Link><br />
-            <Link to="/view">View</Link><br />
           </div>
         );
       }
