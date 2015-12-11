@@ -4,6 +4,7 @@ var React  = require('react');
 
 var CommentBox = require('./CommentBox');
 var BrowseHeader = require('./BrowseHeader');
+var $ = require('jquery');
 
 var View = React.createClass({
     componentWillMount:function() {
@@ -12,6 +13,38 @@ var View = React.createClass({
         console.log(this.data)
     },
 
+    handleCommentSubmit: function(e){
+        e.preventDefault();
+    },
+    handleClick: function(){
+        var contents = $('.upload-form').serializeArray();
+        contents.push({name:'id', value:this.data._id});
+        var newComments = this.refs.inputText.getDOMNode().value;
+        contents.push({name:'comments', value:newComments});
+        $.ajax({
+            url: '/comment',
+            data: contents,
+            dataType: 'json',
+            type: 'POST',
+            success: function(res) {
+				console.log(res);
+				if ( res == 'success' ) {
+					console.log('pushing history');
+					this.history.pushState(null, '/browse');
+				}
+			}.bind(this),
+			error: function(xhr, status, err) {
+				console.log('error');
+				console.log(err);
+			}.bind(this)
+		});
+        alert("Your comment has been added. You can see it next time you come to this page.");
+    },
+
+    //submitComment:function(){
+        //alert("I WORKED!");
+    //},
+
     render: function() {
         //this.data.comments.push("Testing HERE!");
         //this.data.comments.push("AND THERE?");
@@ -19,6 +52,7 @@ var View = React.createClass({
             <div className="welcome">
                 <h1>Title: {this.data.title}</h1>
                 <h3>Composer: {this.data.composer}</h3>
+                <h5>Uploaded By: {this.data.uploader}</h5>
                 <form className='upload-form' action="/upload" method="POST" encType="multipart/form-data" onSubmit={this.onSubmit}>
                   <button type='submit' className='btn btn-default'>Favorite This</button>
                 </form>
@@ -33,6 +67,13 @@ var View = React.createClass({
                         return <h5><td key={i}>{object}</td></h5>;
                     })}
                 </tbody>
+                <div>
+                    <td>Add your own comment:</td>
+                    <form onSubmit={this.handleCommentSubmit}>
+                        <textarea ref="inputText" />
+                        <input type="submit" onClick={this.handleClick.bind(this)} value="Submit" />
+                    </form>
+                </div>
             </div>
         )
     }

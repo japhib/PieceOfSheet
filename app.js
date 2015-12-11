@@ -87,6 +87,22 @@ app.post('/register', function( req, res ) {
     })
 });
 
+app.get('/comment', function( req, res ) {
+    res.send("You can only post to this page!");
+});
+
+app.post('/comment', function( req, res ) {
+
+    console.log('IT ARRIVED!');
+    console.log(req.body);
+    var newComments = req.body.comments;//.split(',');
+    console.log(newComments);
+    var id = req.body.id;
+    var query = {"_id": id};
+    var update = {$addToSet: {comments: newComments}};
+    SheetMusic.findByIdAndUpdate(id, update, function(err, music){})
+});
+
 app.get('/upload', function( req, res ) {
     res.send("You can only post to this page!");
 });
