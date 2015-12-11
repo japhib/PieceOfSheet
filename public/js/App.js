@@ -17,6 +17,7 @@ var Browse = require('./Browse');
 var Footer = require('./Footer');
 var RegisterPanel = require('./RegisterPanel');
 var Upload = require('./Upload');
+var View = require('./View');
 
 
 var BrowsePage = React.createClass({
@@ -96,6 +97,7 @@ var Home = React.createClass({
             <Link to="/favorites">Favorites</Link><br />
             <Link to="/my-uploads">My Uploads</Link><br />
             <Link to="/upload">Upload Music</Link><br />
+            <Link to="/view">View</Link><br />
           </div>
         );
       }
@@ -158,6 +160,7 @@ ReactDOM.render(
           <Route path="my-uploads" component={MyUploads} />
           <Route path="favorites" component={Favorites} />
           <Route path="upload" component={Upload} />
+          <Route path="view" component={View} />
           <IndexRoute component={Home} />
         </Route>
     </Router>
