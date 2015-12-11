@@ -15,7 +15,7 @@ var FileThumbnail = React.createClass({displayName: "FileThumbnail",
             })
         },
 		render: function() {
-            if (this.props.data.filename.endsWith('.jpg')){
+            if (!this.props.data.filename.endsWith('.pdf')){
 			return (
                 <div onClick={this.handleClick}>
                     <div style={{float: 'left'}} className="col-md-3 hoverable">
