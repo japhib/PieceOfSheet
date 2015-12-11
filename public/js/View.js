@@ -16,7 +16,10 @@ var View = React.createClass({
             <div className="welcome">
                 <h1>Title: {this.data.title}</h1>
                 <h3>Composer: {this.data.composer}</h3>
-                    <iframe src={"media/" + this.data.filename} width="650" height="700"></iframe>
+                <iframe src={"media/" + this.data.filename} width="650" height="700"></iframe>
+                <a href={"media/" + this.data.filename}>Download</a>
+                <h4>Description:</h4>
+                <h5>this.data.description</h5>
             </div>
         )
     }

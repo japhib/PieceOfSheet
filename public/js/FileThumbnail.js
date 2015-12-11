@@ -15,17 +15,32 @@ var FileThumbnail = React.createClass({displayName: "FileThumbnail",
             })
         },
 		render: function() {
+            if (this.props.data.filename.endsWith('.jpg')){
 			return (
                 <div onClick={this.handleClick}>
                     <div style={{float: 'left'}} className="col-md-3 hoverable">
                          <div style={{position: 'relative'}}>
                             <h4 style={{textAlign: 'center'}}> Title: {this.props.data.title}</h4>
                             <div style={{textAlign: 'center', fontStyle: 'italic'}}> Composer: {this.props.data.composer}</div>
-                            <img src={"media/" + this.props.data.thumbnail_file} className="thumbnail_pic" />
+                            <img src={"media/"+this.props.data.filename} className="thumbnail_pic" />
                          </div>
                      </div>
                 </div>
 			);
+            }
+            else {
+                return (
+                    <div onClick={this.handleClick}>
+                        <div style={{float: 'left'}} className="col-md-3 hoverable">
+                            <div style={{position: 'relative'}}>
+                                <h4 style={{textAlign: 'center'}}> Title: {this.props.data.title}</h4>
+                                <div style={{textAlign: 'center', fontStyle: 'italic'}}> Composer: {this.props.data.composer}</div>
+                                <img src={"media/"+this.props.data.thumbnail_file} className="thumbnail_pic" />
+                            </div>
+                        </div>
+                    </div>
+			    );
+            }
 		}
 	});
 module.exports = FileThumbnail;
