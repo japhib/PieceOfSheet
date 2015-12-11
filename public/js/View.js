@@ -41,13 +41,7 @@ var View = React.createClass({
         alert("Your comment has been added. You can see it next time you come to this page.");
     },
 
-    //submitComment:function(){
-        //alert("I WORKED!");
-    //},
-
     render: function() {
-        //this.data.comments.push("Testing HERE!");
-        //this.data.comments.push("AND THERE?");
         return(
             <div className="welcome">
                 <h1>Title: {this.data.title}</h1>

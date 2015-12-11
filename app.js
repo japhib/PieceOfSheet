@@ -93,10 +93,7 @@ app.get('/comment', function( req, res ) {
 
 app.post('/comment', function( req, res ) {
 
-    console.log('IT ARRIVED!');
-    console.log(req.body);
-    var newComments = req.body.comments;//.split(',');
-    console.log(newComments);
+    var newComments = req.body.comments;
     var id = req.body.id;
     var query = {"_id": id};
     var update = {$addToSet: {comments: newComments}};
