@@ -87,6 +87,20 @@ app.post('/register', function( req, res ) {
     })
 });
 
+app.get('/comment', function( req, res ) {
+    res.send("You can only post to this page!");
+});
+
+app.post('/comment', function( req, res ) {
+
+    var newComments = req.body.comments;
+    var id = req.body.id;
+    var query = {"_id": id};
+    var update = {$addToSet: {comments: newComments}};
+    SheetMusic.findByIdAndUpdate(id, update, function(err, music){})
+});
+
+
 app.get('/upload', function( req, res ) {
     res.send("You can only post to this page!");
 });
@@ -210,7 +224,7 @@ app.post('/all-uploads', function( req, res ) {
 ////////////////////
 
 app.use(function(req, res, next) {
-    var err = new Error('Not Found');
+    var err = new Error('Not Found: ' + req.originalUrl);
     err.status = 404;
     next(err);
 });
