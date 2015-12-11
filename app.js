@@ -6,6 +6,8 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var exec = require('child_process').exec;
 var fs = require('fs');
+var auth = require('./public/js/Auth.js');
+
 var app = express();
 
 // DB setup
@@ -96,18 +98,10 @@ app.post('/upload', function( req, res ) {
     var composer = req.body.composer;
     var description = req.body.description;
     var token = req.body.token;
-
+    var username = req.body.uploader;
     // Make an entry for it in our DB
     // First find which user it is that is uploading this
     User.find({password_hash: token}, function(err, user) {
-
-        var username = 'jpbergeson';
-        // if ( err || user.length == 0 ) {
-        //     var result = {submitted:false,error:'invalid login'};
-        //     res.send(result);
-        // }
-        // var username = user[0].username;
-
 
         var sm = new SheetMusic({
             title: title,
@@ -151,6 +145,19 @@ app.post('/upload', function( req, res ) {
         });
     });
 });
+
+app.get('/favorites', function(req, res) {
+  Users.findOne({username: auth.getName()}, {favorites:1, _id:0}, function(err, userFavs) {
+    if(!!userFavs)
+    {
+      res.send(userFavs);
+    }
+    else
+    {
+      res.send(null);
+    }
+  });
+})
 
 app.get('/all-uploads', function( req, res ) {
     SheetMusic.find({}, function (err, music) {

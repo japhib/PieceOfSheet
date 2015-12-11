@@ -4,6 +4,7 @@ var React  = require('react');
 var ReactRouter = require('react-router');
 var History = ReactRouter.History;
 var Redirect = ReactRouter.Redirect;
+var Auth = require('./Auth');
 var $ = require('jquery');
 
 var Upload = React.createClass({
@@ -17,7 +18,7 @@ var Upload = React.createClass({
 	},
 	fileChosen: function(e) {
 		var filename = $('.upload-form input[type=file]').val().split('\\').pop();
-		$('.upload-form .filename').html( filename );    
+		$('.upload-form .filename').html( filename );
 
 		// Read file so we can upload it via ajax
 		var self = this;
@@ -35,10 +36,13 @@ var Upload = React.createClass({
 	},
 	onSubmit: function(e) {
 		e.preventDefault();
+		var username = Auth.getName();
+		console.log('\nuser ' + Auth.getName() + '\n');
 		var filename = $('.upload-form input[type=file]').val().split('\\').pop();
 		var contents = $('.upload-form').serializeArray();
 		contents.push({name:'file', value:this.state.data_uri});
 		contents.push({name:'filename_end', value:filename});
+		contents.push({name:'uploader', value: username});
 
 		// submit the file
 		$.ajax({
