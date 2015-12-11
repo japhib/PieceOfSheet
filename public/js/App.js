@@ -42,7 +42,7 @@ var MyUploads = React.createClass({
     render: function() {
         return (
             <div>
-                <Browse source="/my-uploads" title="My Uploads" />
+                <Browse source="/my-uploads" title="My Uploads" user={Auth.getName()} />
             </div>
             );
     }

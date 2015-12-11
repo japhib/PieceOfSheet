@@ -87,19 +87,6 @@ app.post('/register', function( req, res ) {
     })
 });
 
-app.get('/comment', function( req, res ) {
-    res.send("You can only post to this page!");
-});
-
-app.post('/comment', function( req, res ) {
-
-    var newComments = req.body.comments;
-    var id = req.body.id;
-    var query = {"_id": id};
-    var update = {$addToSet: {comments: newComments}};
-    SheetMusic.findByIdAndUpdate(id, update, function(err, music){})
-});
-
 app.get('/upload', function( req, res ) {
     res.send("You can only post to this page!");
 });
@@ -202,6 +189,12 @@ app.post('/favorites', function(req, res) {
       res.send(null);
     }
   });
+})
+
+app.post('/my-uploads', function(req, res) {
+  SheetMusic.find({uploader: req.body.username}, function (err, userUploads) {
+    res.send(userUploads);
+  })
 })
 
 app.post('/all-uploads', function( req, res ) {
