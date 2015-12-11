@@ -15,7 +15,17 @@ var RegisterPanel = React.createClass({
     var username = this.refs.username.value;
     var password = this.refs.password.value;
 
-    // event.preventDefault();
+    //event.preventDefault();
+
+    if(!username || !password)
+    {
+      this.setState({
+        error: true,
+        loggedIn: false,
+        message: 'missing username or password'
+      });
+      return;
+    }
 
     if(this.refs.password.value !== this.refs.password_two.value)
     {
@@ -27,6 +37,7 @@ var RegisterPanel = React.createClass({
       });
       return;
     }
+
     console.log('attempting to register...');
     Auth.register(username, password, function(registered) {
       if(registered)

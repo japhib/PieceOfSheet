@@ -102,7 +102,7 @@ var DropMenu = React.createClass({
 		{
 			return (
 				<li className='dropdown'>
-							<a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Menu <span class="caret"></span></a>
+							<a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Menu<span class="caret"></span></a>
 							<ul className="dropdown-menu">
 								<li><a href="/#/browse">Browse</a></li>
 								<li><a href="/#/favorites">Favorites</a></li>
@@ -115,7 +115,7 @@ var DropMenu = React.createClass({
 		else {
 			return (
 				<li className='dropdown'>
-							<a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Menu <span class="caret"></span></a>
+							<a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Menu<span class="caret"></span></a>
 							<ul className="dropdown-menu">
 								<li><a href="/#/browse">Browse</a></li>
 							</ul>
